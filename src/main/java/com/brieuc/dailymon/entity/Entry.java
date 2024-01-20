@@ -1,6 +1,9 @@
 package com.brieuc.dailymon.entity;
 
+import java.time.LocalDate;
 import java.util.UUID;
+
+import org.springframework.cglib.core.Local;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +14,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
 @Entity
 @Table(name = "Entry")
@@ -20,13 +34,16 @@ public class Entry {
     @Id
     UUID id;
 
-    @Column(name = "label")
-    String label;
-
     @Column(name = "description")
     String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column(name = "quantity")
+    Double quantity;
+
+    @Column(name = "date")
+    LocalDate date;
+
+    @OneToOne
     @JoinColumn(name = "modelid", referencedColumnName = "id")
     Model model;
 }

@@ -1,4 +1,4 @@
-package com.brieuc.dailymon;
+package com.brieuc.dailymon.service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.brieuc.dailymon.entity.Model;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.brieuc.dailymon.repository.ModelRepository;
 
 @Service
 public class ModelService {

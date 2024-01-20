@@ -1,4 +1,4 @@
-package com.brieuc.dailymon;
+package com.brieuc.dailymon.dto;
 
 import java.util.UUID;
 
