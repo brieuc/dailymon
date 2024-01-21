@@ -1,11 +1,13 @@
-package com.brieuc.dailymon;
+package com.brieuc.dailymon.controller;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +23,11 @@ public class EntryController {
 
     private EntryService entryService;
 
+    @Autowired
+    public EntryController(EntryService entryService) {
+        this.entryService = entryService;
+    }
+
     @GetMapping("/search")
     @ResponseBody
     public HashMap<LocalDate, List<EntryDto>> getEntries( @RequestParam LocalDate fromDate,
@@ -35,6 +42,11 @@ public class EntryController {
             map.put(currentDate, this.entryService.getEntriesByDate(currentDate).stream().map(this::toDto).toList());
         }
         return map;
+    }
+
+    @GetMapping("/{date}")
+    public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return this.entryService.getEntriesByDate(date).stream().map(this::toDto).toList();
     }
 
     private EntryDto toDto(Entry entity) {

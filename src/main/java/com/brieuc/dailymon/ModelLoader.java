@@ -26,8 +26,8 @@ public class ModelLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if (this.modelRepository.count() != 1) {
-            //return;
+        if (this.modelRepository.count() > 0) {
+            return;
         }
         Model brancheCailler = new Model();
         brancheCailler.setLabel("Branche Cailler");

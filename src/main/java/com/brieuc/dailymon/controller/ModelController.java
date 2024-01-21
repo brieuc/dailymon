@@ -1,4 +1,4 @@
-package com.brieuc.dailymon;
+package com.brieuc.dailymon.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.brieuc.dailymon.dto.ModelDto;
 import com.brieuc.dailymon.entity.Model;
 import com.brieuc.dailymon.service.ModelService;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 @RequestMapping(value =  "/model", produces = "application/json")
 @RestController
