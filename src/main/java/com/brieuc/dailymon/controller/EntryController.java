@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,18 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.entity.Entry;
 import com.brieuc.dailymon.service.EntryService;
+import com.brieuc.dailymon.service.ModelService;
 
 @RequestMapping(value = "entry")
 @RestController
 public class EntryController {
 
     private EntryService entryService;
+    private ModelService modelService;
 
     @Autowired
-    public EntryController(EntryService entryService) {
+    public EntryController(EntryService entryService, ModelService modelService) {
         this.entryService = entryService;
+        this.modelService = modelService;
     }
-
+/*
     @GetMapping("/search")
     @ResponseBody
     public HashMap<LocalDate, List<EntryDto>> getEntries( @RequestParam LocalDate fromDate,
@@ -43,8 +47,21 @@ public class EntryController {
         }
         return map;
     }
+*/
+    @RequestMapping
+    @ResponseBody
+    public EntryDto createEntries(@RequestBody EntryDto entryDto) {
+        Entry entry = this.entryService.createEntry(
+            this.modelService.getModelById(entryDto.getModelId()),
+            entryDto.getDate(),
+            entryDto.getDescription(),
+            entryDto.getQuantity()
+        );
+        return toDto(entry);
+    }
 
     @GetMapping("/{date}")
+    @ResponseBody
     public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return this.entryService.getEntriesByDate(date).stream().map(this::toDto).toList();
     }

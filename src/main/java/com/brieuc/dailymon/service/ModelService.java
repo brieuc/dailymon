@@ -1,10 +1,12 @@
 package com.brieuc.dailymon.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.brieuc.dailymon.entity.Model;
 import com.brieuc.dailymon.repository.ModelRepository;
@@ -21,5 +23,9 @@ public class ModelService {
     
     public List<Model> getModels() {
         return this.modelRepository.findAll();
+    }
+
+    public Optional<Model> getModelById(UUID modelId) {
+        return this.modelRepository.findById(modelId);
     }
 }
