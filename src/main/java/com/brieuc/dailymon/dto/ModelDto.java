@@ -2,7 +2,6 @@ package com.brieuc.dailymon.dto;
 
 import java.util.UUID;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

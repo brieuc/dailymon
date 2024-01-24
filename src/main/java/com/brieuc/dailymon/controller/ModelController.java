@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,14 +28,17 @@ public class ModelController {
     @GetMapping
     @ResponseBody
     //@CrossOrigin(origins = "http://localhost:8081")
-    public HashMap<UUID, ModelDto> getModels() {
-        //return this.modelService.getModels().stream().map(this::toDto).toList();
+    //public HashMap<UUID, ModelDto> getModels() {
+    public List<ModelDto> getModels() {
+        return this.modelService.getModels().stream().map(this::toDto).toList();
+        /*
         HashMap<UUID, ModelDto> map = new HashMap<>();
         List<ModelDto> modelDtos = this.modelService.getModels().stream().map(this::toDto).toList();
         for (ModelDto modelDto : modelDtos) {
             map.put(modelDto.getId(), modelDto);
         }
         return map;
+        */
     }
 
     private ModelDto toDto(Model model) {
