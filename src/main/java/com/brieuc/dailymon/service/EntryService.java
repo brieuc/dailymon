@@ -26,7 +26,7 @@ public class EntryService {
     public Entry createEntry(   Model model, LocalDate date, String desc,
                                 Double quantity) {
 
-        Entry entry = Entry.builder().model(model).date(date).description(desc).build();
+        Entry entry = Entry.builder().model(model).date(date).description(desc).quantity(quantity).build();
         entry.setId(UUID.randomUUID());
         this.entryRepository.save(entry);
         return entry;
