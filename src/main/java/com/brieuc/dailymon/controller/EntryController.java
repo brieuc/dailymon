@@ -3,11 +3,15 @@ package com.brieuc.dailymon.controller;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,11 +52,25 @@ public class EntryController {
         return map;
     }
 */
-    @RequestMapping
+
+    @CrossOrigin
+    @PutMapping("{id}")
     @ResponseBody
-    public EntryDto createEntries(@RequestBody EntryDto entryDto) {
+    public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryDto entryDto) {
+        Entry entry = this.entryService.updateEntry(
+            this.entryService.getEntryById(id).get(),
+            entryDto.getDescription(),
+            entryDto.getQuantity()
+        );
+        return toDto(entry);
+    }
+
+    @CrossOrigin
+    @PostMapping
+    @ResponseBody
+    public EntryDto createEntry(@RequestBody EntryDto entryDto) {
         Entry entry = this.entryService.createEntry(
-            this.modelService.getModelById(entryDto.getModelId()),
+            this.modelService.getModelById(entryDto.getModelId()).get(),
             entryDto.getDate(),
             entryDto.getDescription(),
             entryDto.getQuantity()
@@ -60,18 +78,27 @@ public class EntryController {
         return toDto(entry);
     }
 
+    @CrossOrigin
     @GetMapping("/{date}")
     @ResponseBody
     public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return this.entryService.getEntriesByDate(date).stream().map(this::toDto).toList();
     }
 
-    private EntryDto toDto(Entry entity) {
+    @CrossOrigin
+    @GetMapping
+    @ResponseBody
+    public List<EntryDto> getEntries() {
+        return this.entryService.getEntries().stream().map(this::toDto).toList();
+    }
+
+    private EntryDto toDto(Entry entry) {
         EntryDto entryDto = new EntryDto();
-        entryDto.setDescription(entity.getDescription());
-        entryDto.setQuantity(entity.getQuantity());
-        entryDto.setDate(entity.getDate());
-        entryDto.setModelId(entity.getModel().getId());
+        entryDto.setId(entry.getId());
+        entryDto.setDescription(entry.getDescription());
+        entryDto.setQuantity(entry.getQuantity());
+        entryDto.setDate(entry.getDate());
+        entryDto.setModelId(entry.getModel().getId());
         return entryDto;
     }
 }

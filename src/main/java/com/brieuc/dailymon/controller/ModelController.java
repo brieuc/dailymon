@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,7 @@ import com.brieuc.dailymon.dto.ModelDto;
 import com.brieuc.dailymon.entity.Model;
 import com.brieuc.dailymon.service.ModelService;
 
+@CrossOrigin("*")
 @RequestMapping(value =  "/model", produces = "application/json")
 @RestController
 public class ModelController {

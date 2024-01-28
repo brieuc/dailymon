@@ -25,7 +25,7 @@ public class ModelService {
         return this.modelRepository.findAll();
     }
 
-    public Optional<Model> getModelById(UUID modelId) {
+    public Optional<Model> getModelById(@NonNull UUID modelId) {
         return this.modelRepository.findById(modelId);
     }
 }

@@ -20,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EntryDto {
 
+    UUID id;
     String description;
     Double quantity;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
