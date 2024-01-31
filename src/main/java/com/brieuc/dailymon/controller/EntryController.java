@@ -69,6 +69,7 @@ public class EntryController {
     @PostMapping
     @ResponseBody
     public EntryDto createEntry(@RequestBody EntryDto entryDto) {
+        System.out.println(entryDto.getModelId());
         Entry entry = this.entryService.createEntry(
             this.modelService.getModelById(entryDto.getModelId()).get(),
             entryDto.getDate(),
@@ -95,7 +96,8 @@ public class EntryController {
     private EntryDto toDto(Entry entry) {
         EntryDto entryDto = new EntryDto();
         entryDto.setId(entry.getId());
-        entryDto.setDescription(entry.getDescription());
+        entryDto.setDescription(entry.getDescription() == null ?
+            entry.getModel().getLabel() : entry.getDescription());
         entryDto.setQuantity(entry.getQuantity());
         entryDto.setDate(entry.getDate());
         entryDto.setModelId(entry.getModel().getId());
