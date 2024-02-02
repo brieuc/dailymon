@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +52,6 @@ public class EntryController {
     }
 */
 
-    @CrossOrigin
     @PutMapping("{id}")
     @ResponseBody
     public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryDto entryDto) {
@@ -65,7 +63,6 @@ public class EntryController {
         return toDto(entry);
     }
 
-    @CrossOrigin
     @PostMapping
     @ResponseBody
     public EntryDto createEntry(@RequestBody EntryDto entryDto) {
@@ -79,14 +76,12 @@ public class EntryController {
         return toDto(entry);
     }
 
-    @CrossOrigin
     @GetMapping("/{date}")
     @ResponseBody
     public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return this.entryService.getEntriesByDate(date).stream().map(this::toDto).toList();
     }
 
-    @CrossOrigin
     @GetMapping
     @ResponseBody
     public List<EntryDto> getEntries() {

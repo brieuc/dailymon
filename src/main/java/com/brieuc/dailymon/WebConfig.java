@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         .addResourceLocations("classpath:/static/","classpath:/images/")
         .setCachePeriod(0);
     }
-/*
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*")
@@ -22,5 +22,4 @@ public class WebConfig implements WebMvcConfigurer {
         .allowedMethods("*")
         .allowedOrigins("*");
     }
-    */
 }
