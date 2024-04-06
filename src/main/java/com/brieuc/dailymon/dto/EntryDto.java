@@ -2,11 +2,7 @@ package com.brieuc.dailymon.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
-
-import org.springframework.cglib.core.Local;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +28,8 @@ import com.brieuc.dailymon.entity.Entry;
 import com.brieuc.dailymon.service.EntryService;
 import com.brieuc.dailymon.service.ModelService;
 
-@RequestMapping(value = "entry")
 @RestController
+@RequestMapping(value = "entry")
 public class EntryController {
 
     private EntryService entryService;
@@ -86,10 +88,17 @@ public class EntryController {
         return this.entryService.getEntriesByDate(date).stream().map(this::toDto).toList();
     }
 
-    @GetMapping("/firstDate")
-    public LocalDate getFirstDate() {
+    @GetMapping(value = "/firstDate", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public EntryDto getFirstDate() {
         List<EntryDto> entries = this.entryService.getEntries().stream().map(this::toDto).toList();
-        return entries.stream().map(EntryDto::getDate).min(Comparator.naturalOrder()).orElse(LocalDate.now());
+        LocalDate firstDate = entries.stream().map(EntryDto::getDate).min(Comparator.naturalOrder()).orElse(LocalDate.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        //return firstDate.format(formatter);
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>("mamamia", HttpStatusCode.valueOf(200));
+        EntryDto entry = new EntryDto();
+        entry.setDate(firstDate);
+        return entry;
     }
 
 
