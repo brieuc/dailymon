@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://mariadb_container:3306/dailymondb
+    username: root
+    password: BrieucGorin
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
