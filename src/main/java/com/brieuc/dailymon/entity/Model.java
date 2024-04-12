@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "model")
+@Table(name = "Model")
 public class Model {
 
     @GeneratedValue(strategy = GenerationType.UUID)

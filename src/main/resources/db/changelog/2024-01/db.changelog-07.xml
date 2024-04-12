@@ -7,7 +7,9 @@
     <changeSet  id="1"  author="Brieuc">
 
         <createTable tableName="entry">
-            <column name="id" type="varchar(36)"/>
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" primaryKeyName="PK_ENTRY" nullable="false"/>
+            </column>
             <column name="description"  type="varchar(1000)"/>
             <column name="quantity" type="double"/>
             <column name="date" type="date"/>
@@ -15,13 +17,22 @@
         </createTable>
 
         <createTable tableName="model">
-            <column name="id" type="varchar(36)"/>
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" primaryKeyName="PK_MODEL" nullable="false"/>
+            </column>
             <column name="label" type="varchar(255)"/>
             <column name="description" type="varchar(255)"/>
             <column name="image" type="varchar(255)"/>
             <column name="kcal" type="integer"/>
         </createTable>
     </changeSet>
+    <!--
+     <changeSet id="2" author="Brieuc">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="model"
+        constraintName="FK_MODEL_ID"
+        referencedColumnNames="modelid" referencedTableName="entry"/>
+    </changeSet>
+    -->
 
 
 </databaseChangeLog>

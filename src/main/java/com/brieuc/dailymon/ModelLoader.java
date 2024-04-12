@@ -1,6 +1,7 @@
 package com.brieuc.dailymon;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -29,6 +30,38 @@ public class ModelLoader implements ApplicationRunner {
         if (this.modelRepository.count() > 0) {
             return;
         }
+
+        Model blueMoon = new Model();
+        blueMoon.setDescription("Bluemoon 1DL");
+        blueMoon.setLabel("Bluemoon 1DL");
+        blueMoon.setKcal(47);
+        this.modelRepository.save(blueMoon);
+
+        Model inglewood = new Model();
+        inglewood.setDescription("Inglewood Honey Goat");
+        inglewood.setLabel("Inglewood");
+        inglewood.setKcal(1000);
+        this.modelRepository.save(inglewood);
+
+        Model pizza = new Model();
+        pizza.setDescription("Pizza");
+        pizza.setLabel("Pizza");
+        pizza.setKcal(1200);
+        this.modelRepository.save(pizza);
+
+        Model mcDonald = new Model();
+        mcDonald.setLabel("Menu Big Mac");
+        mcDonald.setDescription("Menu Big Mac Medium");
+        mcDonald.setKcal(850);
+        this.modelRepository.save(mcDonald);
+
+
+        Model mcFleuryRagusa = new Model();
+        mcFleuryRagusa.setLabel("McFlurry");
+        mcFleuryRagusa.setDescription("McFlurry");
+        mcFleuryRagusa.setKcal(540);
+        this.modelRepository.save(mcFleuryRagusa);
+
         Model brancheCailler = new Model();
         brancheCailler.setLabel("Branche Cailler");
         brancheCailler.setDescription("Branche cailler");
@@ -40,26 +73,5 @@ public class ModelLoader implements ApplicationRunner {
         carreChocolat.setDescription("Carré de chocolat cailler");
         carreChocolat.setKcal(45);
         this.modelRepository.save(carreChocolat);
-
-        Entry entry20012024 = new Entry();
-        entry20012024.setDate(LocalDate.now());
-        entry20012024.setDescription("Petit carré discret");
-        entry20012024.setModel(carreChocolat);
-        entry20012024.setQuantity(2.0);
-        this.entryRepository.save(entry20012024);
-
-        Entry entry20012024_2 = new Entry();
-        entry20012024_2.setDate(LocalDate.now());
-        entry20012024_2.setDescription("Branche migros");
-        entry20012024_2.setModel(brancheCailler);
-        entry20012024_2.setQuantity(1.0);
-        this.entryRepository.save(entry20012024_2);
-
-        Entry entry19012024 = new Entry();
-        entry19012024.setDate(LocalDate.now().minusDays(1));
-        entry19012024.setDescription("Chocolat noir");
-        entry19012024.setModel(carreChocolat);
-        entry19012024.setQuantity(1.0);
-        this.entryRepository.save(entry19012024);
     }
 }
