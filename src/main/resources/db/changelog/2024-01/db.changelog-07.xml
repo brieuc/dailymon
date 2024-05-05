@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<databaseChangeLog
+   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet  id="1"  author="Brieuc">
+
+        <createTable tableName="model_food">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_MODEL_FOOD" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="description" type="varchar(255)"/>
+
+            <column name="label" type="varchar(255)"/>
+            <column name="image" type="varchar(255)"/>
+            <column name="kcal" type="integer"/>
+        </createTable>
+
+        <createTable tableName="model_free">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_MODEL_FREE" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="label" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="model_sport">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_MODEL_SPORT" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="sport" type="varchar(255)"/>
+            <column name="benefit" type="varchar(255)"/>
+            <column name="image" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="entry_free">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_ENTRY_FREE" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="title" type="varchar(255)"/>
+            <column name="description"  type="UUID"/>
+            <column name="date" type="date"/>
+
+            <column name="modelid" type="UUID">
+                <constraints foreignKeyName="fk_model_free" references="model_free(id)" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="entry_food">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_ENTRY_FOOD" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="title" type="varchar(255)"/>
+            <column name="description"  type="UUID"/>
+            <column name="date" type="date"/>
+            <column name="quantity" type="double"/>
+
+            <column name="modelid" type="UUID">
+                <constraints foreignKeyName="fk_model_food" references="model_food(id)" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="entry_sport">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_ENTRY_SPORT" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="title" type="varchar(255)"/>
+            <column name="description"  type="UUID"/>
+            <column name="date" type="date"/>
+
+            <column name="kcal" type="integer"/>
+            <column name="duration" type="integer"/>
+            <column name="aerobic" type="double"/>
+            <column name="anaerobic" type="double"/>
+
+            <column name="modelid" type="UUID">
+                <constraints foreignKeyName="fk_model_sport" references="model_sport(id)" nullable="false"/>
+            </column>
+        </createTable>
+
+
+    </changeSet>
+    <!--
+     <changeSet id="2" author="Brieuc">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="model"
+        constraintName="FK_MODEL_ID"
+        referencedColumnNames="modelid" referencedTableName="entry"/>
+    </changeSet>
+    -->
+
+
+</databaseChangeLog>

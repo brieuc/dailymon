@@ -1,0 +1,18 @@
+package com.brieuc.dailymon.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class EntryFoodDto extends EntryDto {
+
+    Double quantity;
+    final String type="FOOD";
+}
