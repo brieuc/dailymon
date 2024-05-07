@@ -14,5 +14,6 @@ import lombok.Setter;
 public class EntryFoodDto extends EntryDto {
 
     Double quantity;
+    ModelFoodDto model;
     final String type="FOOD";
 }

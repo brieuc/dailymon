@@ -1,11 +1,13 @@
 package com.brieuc.dailymon.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieuc.dailymon.dto.ModelDto;
@@ -19,7 +21,7 @@ import com.brieuc.dailymon.service.ModelFoodService;
 import com.brieuc.dailymon.service.ModelFreeService;
 import com.brieuc.dailymon.service.ModelSportService;
 
-@RequestMapping(value =  "/model", produces = "application/json")
+@RequestMapping(value =  "/model")
 @RestController
 public class ModelController {
 
@@ -49,6 +51,23 @@ public class ModelController {
     @GetMapping(value = "/free")
     public List<ModelFreeDto> getFreeModels() {
         return modelFreeService.getModels().stream().map(this::toDto).toList();
+    }
+
+    @GetMapping(value = "/{id}")
+    public ModelDto getModel(@PathVariable(name = "id") UUID modelId) {
+        Optional<ModelFood> modelFood = modelFoodService.getModelById(modelId);
+        if (modelFood.isPresent()) {
+            return toDto(modelFood.get());
+        }
+        Optional<ModelSport> modelSport = modelSportService.getModelById(modelId);
+        if (modelSport.isPresent()) {
+            return toDto(modelSport.get());
+        }
+        Optional<ModelFree> modelFree =  modelFreeService.getModelById(modelId);
+        if (modelFree.isPresent()) {
+            return toDto(modelFree.get());
+        }
+        return null;
     }
 
     private ModelFoodDto toDto(ModelFood modelFood) {

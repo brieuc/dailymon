@@ -27,7 +27,7 @@ import com.brieuc.dailymon.service.EntryFacade;
 import com.brieuc.dailymon.service.ModelFacade;
 
 @RestController
-@RequestMapping(value = "entry")
+@RequestMapping(value = "/entry")
 public class EntryController {
 
     private EntryFacade entryFacade;
@@ -56,7 +56,7 @@ public class EntryController {
     }
 */
 
-    @PutMapping("{id}/food")
+    @PutMapping("/{id}/food")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
         Entry entry = this.entryFacade.updateEntry(entryFoodDto);
