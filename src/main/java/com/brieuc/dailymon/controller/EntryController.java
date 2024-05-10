@@ -58,7 +58,7 @@ public class EntryController {
 
     @PutMapping("/{id}/food")
     // @ResponseBody no need it's included in @RestController
-    public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
+    public EntryDto updateFoodEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
         Entry entry = this.entryFacade.updateEntry(entryFoodDto);
         return toDto(entry);
     }
@@ -69,9 +69,23 @@ public class EntryController {
         return toDto(entry);
     }
 
+    @PutMapping("/{id}/sport")
+    // @ResponseBody no need it's included in @RestController
+    public EntryDto updateSportEntry(@PathVariable UUID id, @RequestBody EntrySportDto entrySportDto) {
+        Entry entry = this.entryFacade.updateEntry(entrySportDto);
+        return toDto(entry);
+    }
+
     @PostMapping(value = "/sport")
     public EntryDto createEntry(@RequestBody EntrySportDto entrySportDto) {
         Entry entry = this.entryFacade.createEntry(entrySportDto);
+        return toDto(entry);
+    }
+
+    @PutMapping("/{id}/free")
+    // @ResponseBody no need it's included in @RestController
+    public EntryDto updateFreeEntry(@PathVariable UUID id, @RequestBody EntryFreeDto entryFreeDto) {
+        Entry entry = this.entryFacade.updateEntry(entryFreeDto);
         return toDto(entry);
     }
 
@@ -120,6 +134,7 @@ public class EntryController {
             entryDto.setModelId(entrySport.getModel().getId());
             entryDto.setAerobic(entrySport.getAerobic());
             entryDto.setAnaerobic(entrySport.getAnaerobic());
+            entryDto.setDuration(entrySport.getDuration());
             entryDto.setBenefit(entrySport.getBenefit());
             entryDto.setKcal(entrySport.getKcal());
             return entryDto;

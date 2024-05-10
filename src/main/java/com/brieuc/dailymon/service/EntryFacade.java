@@ -80,8 +80,8 @@ public class EntryFacade {
             Optional<ModelSport> model = this.modelSportService.getModelById(modelId);
             if (model.isPresent()) {
                 EntrySport entrySport = this.entrySportService.createEntry(model.get(), entrySportDto.getDate(), entrySportDto.getTitle(),
-                                                            entrySportDto.getDescription(), entrySportDto.getDuration(),
-                                                            entrySportDto.getBenefit(), entrySportDto.getKcal(), entrySportDto.getAerobic(),
+                                                            entrySportDto.getDescription(),
+                                                            entrySportDto.getBenefit(), entrySportDto.getDuration(), entrySportDto.getKcal(), entrySportDto.getAerobic(),
                                                             entrySportDto.getAnaerobic());
                 return entrySport;
             }
@@ -112,7 +112,20 @@ public class EntryFacade {
                 EntryFood entryFoodUpdate = entryFoodService.updateEntry(entryFood.get(), entryFoodDto.getQuantity());
                 return entryFoodUpdate;
             }
-
+        }
+        if (entryDto instanceof EntrySportDto entrySportDto) {
+            Optional<EntrySport> entrySport = this.entrySportService.getEntryById(entrySportDto.getId());
+            if (entrySport.isPresent()) {
+                EntrySport entrySportUpdate = entrySportService.updateEntry(entrySport.get(), entrySportDto.getTitle(), entrySportDto.getDescription(), entrySportDto.getBenefit(), entrySportDto.getDuration(), entrySportDto.getKcal(), entrySportDto.getAerobic(), entrySportDto.getAnaerobic());
+                return entrySportUpdate;
+            }
+        }
+        if (entryDto instanceof EntryFreeDto entryFreeDto) {
+            Optional<EntryFree> entryFree = this.entryFreeService.getEntryById(entryFreeDto.getId());
+            if (entryFree.isPresent()) {
+                EntryFree entryFreeUpdate = entryFreeService.updateEntry(entryFree.get(), entryFreeDto.getTitle(), entryFreeDto.getDescription());
+                return entryFreeUpdate;
+            }
         }
         return null;
     }

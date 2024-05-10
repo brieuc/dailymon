@@ -20,6 +20,5 @@ public class EntrySportDto extends EntryDto {
     Double anaerobic;
     Integer duration;
     Benefit benefit;
-    ModelSportDto model;
     final String type="SPORT";
 }

@@ -24,12 +24,13 @@ public class EntrySportService {
     }
 
     public EntrySport createEntry(ModelSport model, LocalDate date, String title, String desc,
-                                    Integer duration, Benefit benefit, Integer kcal,
+                                    Benefit benefit, Integer duration, Integer kcal,
                                     Double aerobic, Double anaerobic) {
 
         EntrySport entry = EntrySport.builder()
                             .model(model)
                             .duration(duration)
+                            .kcal(kcal)
                             .benefit(benefit)
                             .aerobic(aerobic)
                             .anaerobic(aerobic).build();
@@ -37,6 +38,7 @@ public class EntrySportService {
         entry.setDate(date);
         entry.setDescription(desc);
         entry.setTitle(title);
+        entry.setModel(model);
         entryRepository.save(entry);
         return entry;
     }
@@ -53,11 +55,16 @@ public class EntrySportService {
         return this.entryRepository.findByDate(date);
     }
 
-    public EntrySport updateEntry(EntrySport entry, String description, Benefit benefit,
-                                    Integer duration, Double aerobic, Double anaerobic) {
-        entry.setDuration(duration);
+    public EntrySport updateEntry(EntrySport entry, String title, String description, Benefit benefit,
+                                    Integer duration, Integer kcal, Double aerobic, Double anaerobic) {
+        
+        entry.setTitle(title);
         entry.setDescription(description);
+        entry.setDuration(duration);
+        entry.setKcal(kcal);
         entry.setBenefit(benefit);
+        entry.setAerobic(aerobic);
+        entry.setAnaerobic(anaerobic);
         this.entryRepository.save(entry);
         return entry;
     }

@@ -46,7 +46,8 @@ public class EntryFreeService {
         return this.entryRepository.findByDate(date);
     }
 
-    public EntryFree updateEntry(EntryFree entry, String description) {
+    public EntryFree updateEntry(EntryFree entry, String title, String description) {
+        entry.setTitle(title);
         entry.setDescription(description);
         this.entryRepository.save(entry);
         return entry;
