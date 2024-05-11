@@ -13,7 +13,7 @@ public interface EntryFoodRepository extends JpaRepository<EntryFood, UUID>{
     
     public ArrayList<EntryFood> findByDate(LocalDate date);
     
-    @Query(value = "SELECT MIN(DATE) FROM ENTRY_FOOD", 
+    @Query(value = "select MIN(date) from entry_food", 
           nativeQuery = true)
     LocalDate findMinEntryDate();
 }
