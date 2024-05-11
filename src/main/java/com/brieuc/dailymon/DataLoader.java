@@ -1,5 +1,7 @@
 package com.brieuc.dailymon;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -73,6 +75,7 @@ public class DataLoader implements ApplicationRunner {
         blueMoon.setTitle("Bluemoon 1DL");
         blueMoon.setKcal(47);
         this.modelFoodRepository.save(blueMoon);
+        
 /*
         EntrySport entryFit = new EntrySport(508, 56, 2.6, 2.4, Benefit.SPRINT, fitVaudoise);
         entryFit.setDate(LocalDate.of(7, 5, 2024));
@@ -90,45 +93,44 @@ public class DataLoader implements ApplicationRunner {
             "12 TRX dos"
         );
         entrySportRepository.save(entryFit);
-*/
-/*  
+        */
+
         ModelFood inglewood = new ModelFood();
         inglewood.setDescription("Inglewood Honey Goat");
-        inglewood.setLabel("Inglewood");
+        inglewood.setTitle("Inglewood");
         inglewood.setKcal(1000);
-        this.modelRepository.save(inglewood);
+        this.modelFoodRepository.save(inglewood);
 
         ModelFood pizza = new ModelFood();
         pizza.setDescription("Pizza");
-        pizza.setLabel("Pizza");
+        pizza.setTitle("Pizza");
         pizza.setKcal(1200);
-        this.modelRepository.save(pizza);
+        this.modelFoodRepository.save(pizza);
 
         ModelFood mcDonald = new ModelFood();
-        mcDonald.setLabel("Menu Big Mac");
+        mcDonald.setTitle("Menu Big Mac");
         mcDonald.setDescription("Menu Big Mac Medium");
         mcDonald.setKcal(850);
-        this.modelRepository.save(mcDonald);
+        this.modelFoodRepository.save(mcDonald);
 
 
         ModelFood mcFleuryRagusa = new ModelFood();
-        mcFleuryRagusa.setLabel("McFlurry");
+        mcFleuryRagusa.setTitle("McFlurry");
         mcFleuryRagusa.setDescription("McFlurry");
         mcFleuryRagusa.setKcal(540);
-        this.modelRepository.save(mcFleuryRagusa);
+        this.modelFoodRepository.save(mcFleuryRagusa);
 
         ModelFood brancheCailler = new ModelFood();
-        brancheCailler.setLabel("Branche Cailler");
+        brancheCailler.setTitle("Branche Cailler");
         brancheCailler.setDescription("Branche cailler");
         brancheCailler.setKcal(160);
-        this.modelRepository.save(brancheCailler);
+        this.modelFoodRepository.save(brancheCailler);
 
         ModelFood carreChocolat = new ModelFood();
-        carreChocolat.setLabel("Carré de chocolat");
+        carreChocolat.setTitle("Carré de chocolat");
         carreChocolat.setDescription("Carré de chocolat cailler");
         carreChocolat.setKcal(45);
-        this.modelRepository.save(carreChocolat);
-        */
+        this.modelFoodRepository.save(carreChocolat);
         
     }
 }

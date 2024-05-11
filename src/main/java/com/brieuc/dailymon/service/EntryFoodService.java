@@ -39,7 +39,7 @@ public class EntryFoodService {
         if (minDate != null) {
             return minDate;
         }
-        return LocalDate.now();
+        return LocalDate.now().minusDays(1);
     }
 
     public Optional<EntryFood> getEntryById(UUID id) {
