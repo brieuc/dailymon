@@ -23,8 +23,9 @@ public class ModelFoodService {
 
     public ModelFood createModel(String title, String description, int kcal, String image) {
         ModelFood modelFood = new ModelFood(kcal, image);
-        modelFood.setTitle(image);
+        modelFood.setTitle(title);
         modelFood.setDescription(description);
+        modelFood.setImage(image);
         modelFoodRepository.save(modelFood);
         return modelFood;
     }

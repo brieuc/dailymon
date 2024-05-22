@@ -33,7 +33,7 @@ public class EntrySportService {
                             .kcal(kcal)
                             .benefit(benefit)
                             .aerobic(aerobic)
-                            .anaerobic(aerobic).build();
+                            .anaerobic(anaerobic).build();
         entry.setId(UUID.randomUUID());
         entry.setDate(date);
         entry.setDescription(desc);
@@ -67,5 +67,9 @@ public class EntrySportService {
         entry.setAnaerobic(anaerobic);
         this.entryRepository.save(entry);
         return entry;
+    }
+
+    public void deleteEntry(EntrySport entrySport) {
+        entryRepository.delete(entrySport);
     }
 }

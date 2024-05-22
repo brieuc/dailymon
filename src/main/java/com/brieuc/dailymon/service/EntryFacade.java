@@ -129,4 +129,21 @@ public class EntryFacade {
         }
         return null;
     }
+
+    public void deleteEntry(UUID id) {
+        Optional<EntryFood> entryFood = this.entryFoodService.getEntryById(id);
+        if (entryFood.isPresent()) {
+            entryFoodService.deleteEntry(entryFood.get());
+        }
+
+        Optional<EntrySport> entrySport = this.entrySportService.getEntryById(id);
+        if (entrySport.isPresent()) {
+            entrySportService.deleteEntry(entrySport.get());
+        }
+
+        Optional<EntryFree> entryFree = this.entryFreeService.getEntryById(id);
+        if (entryFree.isPresent()) {
+            entryFreeService.deleteEntry(entryFree.get());
+        }
+    }
 }

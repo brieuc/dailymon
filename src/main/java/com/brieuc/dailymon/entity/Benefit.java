@@ -11,7 +11,9 @@ public enum Benefit {
     @JsonProperty("base")
     BASE("base"),
     @JsonProperty("anaerobie")
-    ANAEROBIE("anaerobie");
+    ANAEROBIE("anaerobie"),
+    @JsonProperty("vo2max")
+    VO2MAX("vo2max");
 
     private final String benefit;
 

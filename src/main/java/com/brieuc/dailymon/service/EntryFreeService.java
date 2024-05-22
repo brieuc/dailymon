@@ -52,4 +52,8 @@ public class EntryFreeService {
         this.entryRepository.save(entry);
         return entry;
     }
+
+    public void deleteEntry(EntryFree entryFree) {
+        entryRepository.delete(entryFree);
+    }
 }

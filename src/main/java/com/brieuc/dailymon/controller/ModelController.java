@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,6 +71,24 @@ public class ModelController {
         }
         return null;
     }
+
+    @PostMapping(value = "/food")
+    public ModelDto createModel(@RequestBody ModelFoodDto modelFoodDto) {
+        ModelFood modelFood = modelFoodService.createModel(modelFoodDto.getTitle(), modelFoodDto.getDescription(), modelFoodDto.getKcal(), modelFoodDto.getImage());
+        return toDto(modelFood);
+    } 
+
+    @PostMapping(value = "/sport")
+    public ModelDto createModel(@RequestBody ModelSportDto modelSportDto) {
+        ModelSport modelSport = modelSportService.createModel(modelSportDto.getTitle(), modelSportDto.getDescription(), modelSportDto.getSport(), modelSportDto.getImage());
+        return toDto(modelSport);
+    } 
+
+    @PostMapping(value = "/free")
+    public ModelDto createModel(@RequestBody ModelFreeDto modelFreeDto) {
+        ModelFree modelFree = modelFreeService.createModel(modelFreeDto.getTitle(), modelFreeDto.getTitle());
+        return toDto(modelFree);
+    } 
 
     private ModelFoodDto toDto(ModelFood modelFood) {
         ModelFoodDto modelDto = new ModelFoodDto();

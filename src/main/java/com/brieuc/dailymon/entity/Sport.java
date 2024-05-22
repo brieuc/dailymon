@@ -7,5 +7,6 @@ public enum Sport {
     SKATE,
     BOXING,
     HIIT,
-    BIKE
+    BIKE,
+    STREET_WORKOUT
 }

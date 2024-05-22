@@ -59,4 +59,8 @@ public class EntryFoodService {
         this.entryRepository.save(entry);
         return entry;
     }
+
+    public void deleteEntry(EntryFood entryFood) {
+        entryRepository.delete(entryFood);
+    }
 }

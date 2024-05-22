@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -111,6 +112,12 @@ public class EntryController {
         EntryDto entryDto = new EntryFoodDto();
         entryDto.setDate(entryFacade.getMinEntryDate());
         return entryDto;
+    }
+
+    // the name = "id" is not mandatory if the variable has the same name though.
+    @DeleteMapping("/{id}")
+    public void deleteEntry(@PathVariable(name = "id") UUID id) {
+        entryFacade.deleteEntry(id);
     }
 
     private EntryDto toDto(Entry entry) {

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.brieuc.dailymon.dto.ModelDto;
 import com.brieuc.dailymon.dto.ModelFoodDto;
+import com.brieuc.dailymon.dto.ModelFreeDto;
+import com.brieuc.dailymon.dto.ModelSportDto;
 import com.brieuc.dailymon.entity.model.Model;
 import com.brieuc.dailymon.entity.model.ModelFood;
 
@@ -33,6 +35,12 @@ public class ModelFacade {
         
         if (modelDto instanceof ModelFoodDto mfood) {
             return this.modelFoodService.createModel(mfood.getTitle(), mfood.getDescription(), mfood.getKcal(), mfood.getImage());
+        }
+        if (modelDto instanceof ModelSportDto msport) {
+            return this.modelSportService.createModel(msport.getTitle(), msport.getDescription(), msport.getSport(), msport.getImage());
+        }
+        if (modelDto instanceof ModelFreeDto mfree) {
+            return this.modelFreeService.createModel(mfree.getTitle(), mfree.getDescription());
         }
         return null;
     }

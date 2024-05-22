@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import com.brieuc.dailymon.entity.Benefit;
 import com.brieuc.dailymon.entity.Sport;
 import com.brieuc.dailymon.entity.model.ModelSport;
 import com.brieuc.dailymon.repository.ModelSportRepository;
@@ -23,8 +22,10 @@ public class ModelSportService {
         this.modelSportRepository = modelSportRepository;
     }
 
-    public ModelSport createModel(Sport sport, Benefit benefit, String image) {
+    public ModelSport createModel(String title, String description, Sport sport, String image) {
         ModelSport modelSport = new ModelSport(sport, image);
+        modelSport.setTitle(title);
+        modelSport.setDescription(description);
         modelSportRepository.save(modelSport);
         return modelSport;
     }
