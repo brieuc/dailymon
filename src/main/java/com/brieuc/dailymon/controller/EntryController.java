@@ -1,6 +1,9 @@
 package com.brieuc.dailymon.controller;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieuc.dailymon.dto.EntryDto;
@@ -96,10 +100,6 @@ public class EntryController {
         return toDto(entry);
     }
 
-    @GetMapping("/{date}")
-    public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return this.entryFacade.getEntriesByDate(date).stream().map(this::toDto).toList();
-    }
 
     @GetMapping("/{date}/food")
     public List<EntryDto> getFoodEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
@@ -112,6 +112,41 @@ public class EntryController {
         EntryDto entryDto = new EntryFoodDto();
         entryDto.setDate(entryFacade.getMinEntryDate());
         return entryDto;
+    }
+
+    @GetMapping("/{date}")
+    public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return this.entryFacade.getEntriesByDate(date).stream().map(this::toDto).toList();
+    }
+ 
+
+    //http://localhost:8080/entry/2024-05-11?numberOfDays=7
+    @GetMapping(value = "/get/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getRelevantDates(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+                                    @RequestParam(name = "numberOfDays") Integer nbOfDays) {
+        
+        List<String> listOfDates = new ArrayList<>();
+        LocalDate minDate = entryFacade.getMinEntryDate();
+        DayOfWeek dayOfWeek = minDate.getDayOfWeek();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        int iDay = dayOfWeek.getValue();
+        // LUNDI, MARDI, MERCERDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE
+        //   1      2        3       4        5       6        7
+        // Si Dimanche (7), pour trouver le lundi, in fait Date - 6 (iDay - 1)
+        // Si Mercredi (3), pour trouver le lundi, on fait Date - 2 (iDay - 1)
+        // Si Lundi (1), pour trouver le lundi, on fait Date - 0 (iDay - 1)
+        int i = 1;
+        int dayToSubstract = iDay - 1;
+        LocalDate firstDay = minDate.minusDays(dayToSubstract);
+        LocalDate currentDay = firstDay;
+        while (currentDay.isBefore(LocalDate.now()) ) {
+            listOfDates.add(currentDay.format(formatter));
+            currentDay = firstDay.plusDays(i * nbOfDays);
+            i++;
+        }
+        return listOfDates;
     }
 
     // the name = "id" is not mandatory if the variable has the same name though.
