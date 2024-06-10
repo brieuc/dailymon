@@ -1,6 +1,7 @@
 package com.brieuc.dailymon.service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,6 +59,34 @@ public class EntryFacade {
 
     public List<EntryFood> getFoodEntriesByDate(LocalDate date) {
         return entryFoodService.getEntriesByDate(date).stream().toList();
+    }
+
+    public HashMap<String, Integer> getSummaryInfo(LocalDate fromDate, LocalDate toDate) {
+        
+        int sportDuration = 0;
+        int spentKcal = 0;
+        int ingestedKcal = 0;
+        int i = 0;
+        LocalDate currentDate = fromDate;
+        while (!currentDate.isAfter(toDate)) {
+            currentDate = fromDate.plusDays(i);
+            List<EntrySport> entriesSport = entrySportService.getEntriesByDate(currentDate);
+            for (EntrySport entrySport:entriesSport) {
+                sportDuration = sportDuration + entrySport.getDuration();
+                spentKcal = spentKcal + entrySport.getKcal();
+            }
+            List<EntryFood> entriesFood = entryFoodService.getEntriesByDate(currentDate);
+            for (EntryFood entryFood:entriesFood) {
+                ingestedKcal = ingestedKcal + (entryFood.getQuantity().intValue() * entryFood.getModel().getKcal());
+            }
+            i++;
+        }
+
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("spentKcal", spentKcal);
+        map.put("ingestedKcal", ingestedKcal);
+        map.put("sportDuration", sportDuration);
+        return map;
     }
 
     public Entry createEntry(EntryDto entryDto) {

@@ -1,9 +1,8 @@
 package com.brieuc.dailymon.controller;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brieuc.dailymon.CommonUtil;
 import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.dto.EntryFoodDto;
 import com.brieuc.dailymon.dto.EntryFreeDto;
 import com.brieuc.dailymon.dto.EntrySportDto;
+import com.brieuc.dailymon.dto.SummaryInfoDto;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.entry.EntryFree;
@@ -108,10 +109,10 @@ public class EntryController {
 
     @GetMapping(value = "/firstDate", produces = MediaType.APPLICATION_JSON_VALUE)
     // TODO without using EntryDTO, surely a better way
-    public EntryDto getFirstDate() {
-        EntryDto entryDto = new EntryFoodDto();
-        entryDto.setDate(entryFacade.getMinEntryDate());
-        return entryDto;
+    public List<String> getFirstDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = entryFacade.getMinEntryDate().format(formatter);
+        return List.of(date);
     }
 
     @GetMapping("/{date}")
@@ -120,33 +121,26 @@ public class EntryController {
     }
  
 
-    //http://localhost:8080/entry/2024-05-11?numberOfDays=7
+    //http://localhost:8080/entry/get/2024-05-11?numberOfDays=7
     @GetMapping(value = "/get/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getRelevantDates(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                     @RequestParam(name = "numberOfDays") Integer nbOfDays) {
         
-        List<String> listOfDates = new ArrayList<>();
-        LocalDate minDate = entryFacade.getMinEntryDate();
-        DayOfWeek dayOfWeek = minDate.getDayOfWeek();
+        //return CommonUtil.getListOfDates(entryFacade.getMinEntryDate(), nbOfDays);
+        List<String> s = CommonUtil.getListOfDates(date, nbOfDays);
+        return s;
+    }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        
-        int iDay = dayOfWeek.getValue();
-        // LUNDI, MARDI, MERCERDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE
-        //   1      2        3       4        5       6        7
-        // Si Dimanche (7), pour trouver le lundi, in fait Date - 6 (iDay - 1)
-        // Si Mercredi (3), pour trouver le lundi, on fait Date - 2 (iDay - 1)
-        // Si Lundi (1), pour trouver le lundi, on fait Date - 0 (iDay - 1)
-        int i = 1;
-        int dayToSubstract = iDay - 1;
-        LocalDate firstDay = minDate.minusDays(dayToSubstract);
-        LocalDate currentDay = firstDay;
-        while (currentDay.isBefore(LocalDate.now()) ) {
-            listOfDates.add(currentDay.format(formatter));
-            currentDay = firstDay.plusDays(i * nbOfDays);
-            i++;
-        }
-        return listOfDates;
+    @GetMapping(value = "/summary-info", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SummaryInfoDto getSummaryInfo(@RequestParam(name = "fromDate") LocalDate fromDate,
+                                         @RequestParam(name = "toDate") LocalDate toDate) {
+
+        HashMap<String, Integer> map = entryFacade.getSummaryInfo(fromDate, toDate);
+        SummaryInfoDto summaryInfoDto = new SummaryInfoDto();
+        summaryInfoDto.setIngestedKcal(map.get("ingestedKcal"));
+        summaryInfoDto.setSpentKcal(map.get("spentKcal"));;
+        summaryInfoDto.setSportDuration(map.get("sportDuration"));
+        return summaryInfoDto;
     }
 
     // the name = "id" is not mandatory if the variable has the same name though.
@@ -154,6 +148,8 @@ public class EntryController {
     public void deleteEntry(@PathVariable(name = "id") UUID id) {
         entryFacade.deleteEntry(id);
     }
+
+
 
     private EntryDto toDto(Entry entry) {
         if (entry instanceof EntryFood entryFood) {
