@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.brieuc</groupId>
 	<artifactId>dailymon</artifactId>
-	<version>0.2</version>
+	<version>0.3.0</version>
 	<name>dailymon</name>
 	<description>Project for dailymon</description>
 	<properties>
