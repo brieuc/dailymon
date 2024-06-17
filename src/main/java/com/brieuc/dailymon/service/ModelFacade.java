@@ -14,6 +14,8 @@ import com.brieuc.dailymon.dto.ModelFreeDto;
 import com.brieuc.dailymon.dto.ModelSportDto;
 import com.brieuc.dailymon.entity.model.Model;
 import com.brieuc.dailymon.entity.model.ModelFood;
+import com.brieuc.dailymon.entity.model.ModelFree;
+import com.brieuc.dailymon.entity.model.ModelSport;
 
 @Component
 public class ModelFacade {
@@ -43,6 +45,45 @@ public class ModelFacade {
             return this.modelFreeService.createModel(mfree.getTitle(), mfree.getDescription());
         }
         return null;
+    }
+
+    public Model updateModel(ModelDto modelDto) {
+        if (modelDto instanceof ModelFoodDto mfood) {
+            Optional<ModelFood> modelFood = this.modelFoodService.getModelById(mfood.getId());
+            if (modelFood.isPresent()) {
+                return this.modelFoodService.updateModel(modelFood.get(), mfood.getTitle(), mfood.getDescription(), mfood.getKcal(), mfood.getImage());
+            }
+        }
+        if (modelDto instanceof ModelSportDto msport) {
+            Optional<ModelSport> modelSport = this.modelSportService.getModelById(msport.getId());
+            if (modelSport.isPresent()) {
+                return this.modelSportService.updateModel(modelSport.get(), msport.getTitle(), msport.getDescription(), msport.getSport(), msport.getImage());
+            }
+         }
+        if (modelDto instanceof ModelFreeDto mfree) {
+            Optional<ModelFree> modelFree = this.modelFreeService.getModelById(mfree.getId());
+            if (modelFree.isPresent()) {
+                return this.modelFreeService.updateModel(modelFree.get(), mfree.getTitle(), mfree.getDescription());
+            }
+        }
+        return null;
+    }
+
+    public void deleteModel(UUID id) {
+        Optional<ModelFood> modelFood = this.modelFoodService.getModelById(id);
+        if (modelFood.isPresent()) {
+            modelFoodService.deleteModel(modelFood.get());
+        }
+
+        Optional<ModelSport> modelSport = this.modelSportService.getModelById(id);
+        if (modelSport.isPresent()) {
+            modelSportService.deleteModel(modelSport.get());
+        }
+
+        Optional<ModelFree> modelFree = this.modelFreeService.getModelById(id);
+        if (modelFree.isPresent()) {
+            modelFreeService.deleteModel(modelFree.get());
+        }
     }
 
     public List<? extends Model> getModels() {

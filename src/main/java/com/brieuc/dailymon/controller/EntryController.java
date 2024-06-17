@@ -91,6 +91,7 @@ public class EntryController {
     @PutMapping("/{id}/free")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateFreeEntry(@PathVariable UUID id, @RequestBody EntryFreeDto entryFreeDto) {
+        // TODO il manque le check avec l'id de @PathVariable et la DTO
         Entry entry = this.entryFacade.updateEntry(entryFreeDto);
         return toDto(entry);
     }

@@ -30,11 +30,24 @@ public class ModelSportService {
         return modelSport;
     }
 
+    public ModelSport updateModel(ModelSport modelSport, String title, String description, Sport sport, String image) {
+        modelSport.setTitle(title);
+        modelSport.setDescription(description);
+        modelSport.setSport(sport);
+        modelSport.setImage(image);
+        modelSportRepository.save(modelSport);
+        return modelSport;
+    }
+
     public List<ModelSport> getModels() {
         return this.modelSportRepository.findAll();
     }
 
     public Optional<ModelSport> getModelById(@NonNull UUID modelId) {
         return this.modelSportRepository.findById(modelId);
+    }
+
+    public void deleteModel(ModelSport modelSport) {
+        this.modelSportRepository.delete(modelSport);
     }
 }

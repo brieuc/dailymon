@@ -1,6 +1,18 @@
 version: '3.1'
 
 services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8083:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      - //Users/brieuc/jenkins/configuration:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    
   db:
     image: mariadb:10.6
     container_name: mariadb_container

@@ -25,7 +25,7 @@ public class CommonUtil {
         int dayToSubstract = iDay - 1;
         LocalDate firstDay = minDate.minusDays(dayToSubstract);
         LocalDate currentDay = firstDay;
-        while (currentDay.isBefore(LocalDate.now()) ) {
+        while (!currentDay.isAfter(LocalDate.now()) ) {
             listOfDates.add(currentDay.format(formatter));
             currentDay = firstDay.plusDays(i * nbOfDays);
             i++;
