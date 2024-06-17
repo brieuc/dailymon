@@ -29,11 +29,22 @@ public class ModelFreeService {
         return modelFree;
     }
 
+    public ModelFree updateModel(ModelFree modelFree, String title, String description) {
+        modelFree.setTitle(title);
+        modelFree.setDescription(description);
+        modelFreeRepository.save(modelFree);
+        return modelFree;
+    }
+
     public List<ModelFree> getModels() {
         return this.modelFreeRepository.findAll();
     }
 
     public Optional<ModelFree> getModelById(@NonNull UUID modelId) {
         return this.modelFreeRepository.findById(modelId);
+    }
+
+        public void deleteModel(ModelFree modelFree) {
+        this.modelFreeRepository.delete(modelFree);
     }
 }

@@ -138,21 +138,24 @@ public class EntryFacade {
         if (entryDto instanceof EntryFoodDto entryFoodDto) {
             Optional<EntryFood> entryFood = this.entryFoodService.getEntryById(entryFoodDto.getId());
             if (entryFood.isPresent()) {
-                EntryFood entryFoodUpdate = entryFoodService.updateEntry(entryFood.get(), entryFoodDto.getQuantity());
+                EntryFood entryFoodUpdate = entryFoodService.updateEntry(entryFood.get(),
+                    entryFoodDto.getTitle(), entryFoodDto.getDescription(), entryFoodDto.getQuantity());
                 return entryFoodUpdate;
             }
         }
         if (entryDto instanceof EntrySportDto entrySportDto) {
             Optional<EntrySport> entrySport = this.entrySportService.getEntryById(entrySportDto.getId());
             if (entrySport.isPresent()) {
-                EntrySport entrySportUpdate = entrySportService.updateEntry(entrySport.get(), entrySportDto.getTitle(), entrySportDto.getDescription(), entrySportDto.getBenefit(), entrySportDto.getDuration(), entrySportDto.getKcal(), entrySportDto.getAerobic(), entrySportDto.getAnaerobic());
+                EntrySport entrySportUpdate = entrySportService.updateEntry(entrySport.get(),
+                    entrySportDto.getTitle(), entrySportDto.getDescription(), entrySportDto.getBenefit(), entrySportDto.getDuration(), entrySportDto.getKcal(), entrySportDto.getAerobic(), entrySportDto.getAnaerobic());
                 return entrySportUpdate;
             }
         }
         if (entryDto instanceof EntryFreeDto entryFreeDto) {
             Optional<EntryFree> entryFree = this.entryFreeService.getEntryById(entryFreeDto.getId());
             if (entryFree.isPresent()) {
-                EntryFree entryFreeUpdate = entryFreeService.updateEntry(entryFree.get(), entryFreeDto.getTitle(), entryFreeDto.getDescription());
+                EntryFree entryFreeUpdate = entryFreeService.updateEntry(entryFree.get(),
+                    entryFreeDto.getTitle(), entryFreeDto.getDescription());
                 return entryFreeUpdate;
             }
         }

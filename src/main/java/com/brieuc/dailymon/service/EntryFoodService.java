@@ -54,7 +54,9 @@ public class EntryFoodService {
         return this.entryRepository.findByDate(date);
     }
 
-    public EntryFood updateEntry(EntryFood entry, Double quantity) {
+    public EntryFood updateEntry(EntryFood entry, String title, String description, Double quantity) {
+        entry.setTitle(title);
+        entry.setDescription(description);
         entry.setQuantity(quantity);
         this.entryRepository.save(entry);
         return entry;

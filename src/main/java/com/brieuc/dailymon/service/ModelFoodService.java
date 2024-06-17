@@ -30,11 +30,24 @@ public class ModelFoodService {
         return modelFood;
     }
 
+    public ModelFood updateModel(ModelFood modelFood, String title, String description, int kcal, String image) {
+        modelFood.setTitle(title);
+        modelFood.setDescription(description);
+        modelFood.setKcal(kcal);
+        modelFood.setImage(image);
+        modelFoodRepository.save(modelFood);
+        return modelFood;
+    }
+
     public List<ModelFood> getModels() {
         return this.modelFoodRepository.findAll();
     }
 
     public Optional<ModelFood> getModelById(@NonNull UUID modelId) {
         return this.modelFoodRepository.findById(modelId);
+    }
+
+    public void deleteModel(ModelFood modelFood) {
+        this.modelFoodRepository.delete(modelFood);
     }
 }
