@@ -14,10 +14,13 @@ public class SummaryInfoDto {
       int spentKcal;
       int ingestedKcal;
       int sportDuration;
+      int drinkingBeer;
 
-      public SummaryInfoDto(int spentKcal, int ingestedKcal, int sportDuration) {
+      public SummaryInfoDto(int spentKcal, int ingestedKcal, int sportDuration,
+                              int drinkingBeer) {
             this.spentKcal = spentKcal;
             this.ingestedKcal = ingestedKcal;
             this.sportDuration = sportDuration;
+            this.drinkingBeer = drinkingBeer;
       }
 }
