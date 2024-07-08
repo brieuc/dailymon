@@ -1,13 +1,12 @@
 package com.brieuc.dailymon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brieuc.dailymon.config.JwtService;
-import com.brieuc.dailymon.user.User;
+import com.brieuc.dailymon.service.AuthService;
 
 
 
@@ -15,22 +14,16 @@ import com.brieuc.dailymon.user.User;
 @RequestMapping(value = "/auth")
 public class AuthController {
 
-      private final JwtService jwtService;
+      private final AuthService authService;
 
       @Autowired
-      public AuthController(JwtService jwtService) {
-            this.jwtService = jwtService;
+      public AuthController(AuthService authService) {
+            this.authService = authService;
       }
 
-      @GetMapping(value = "/login")
-      public void login(@RequestBody User user) {
-
+      @PostMapping(value = "/login")
+      public AuthenticationResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
+            return authService.login(authenticationRequest);
       }
-
-      @GetMapping(value = "/register")
-      public void register(@RequestBody User user) {
-           String token = jwtService.generateToken(null, user);
-      }      
-
 }
 

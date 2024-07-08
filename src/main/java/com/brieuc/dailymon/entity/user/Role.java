@@ -1,4 +1,4 @@
-package com.brieuc.dailymon.user;
+package com.brieuc.dailymon.entity.user;
 
 public enum Role {
       USER,

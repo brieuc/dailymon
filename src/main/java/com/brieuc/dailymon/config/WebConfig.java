@@ -38,14 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
         .allowedOrigins("*");
     }
 
-
- 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-     @Bean
     public UserDetailsService userDetailsService() {
         /*
         return new UserDetailsService() {
@@ -60,4 +53,10 @@ public class WebConfig implements WebMvcConfigurer {
             return userRepository.findByUsername(username).orElseThrow();
         };
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

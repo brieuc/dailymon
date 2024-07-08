@@ -13,17 +13,18 @@
       </addColumn>
 </changeSet>
 
-<changeSet  id="3"  author="Brieuc">
+<changeSet  id="7"  author="Brieuc">
         <createTable tableName="user">
-            <column name="id" type="integer">
-                <constraints primaryKey="true" primaryKeyName="PK_USER" nullable="false"/>
+            <column name="id" type="VARBINARY(36)">
+                <constraints primaryKey="true" primaryKeyName="PK_ENTRY_SPORT" nullable="false"/>
             </column>
+            <column name="version" type="long"/>
             <column name="username" type="varchar(255)"/>
             <column name="password"  type="varchar(255)"/>
         </createTable>
 </changeSet>
 
-<changeSet  id="4"  author="Brieuc">
+<changeSet  id="8"  author="Brieuc">
       <addColumn tableName="user">
             <column name="role"
                   type="varchar(30)">

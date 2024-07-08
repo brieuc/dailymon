@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationConfig {
 
     private final JwtAuthFilter jwtAuthentificationFilter;
-
     private final AuthenticationProvider authenticationProvider;
 
      
@@ -30,8 +29,6 @@ public class ApplicationConfig {
       public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
             .csrf(csrfConfigurer -> csrfConfigurer.disable())
-            .authorizeHttpRequests(authorize -> authorize
-			        .anyRequest().authenticated())
             .authorizeHttpRequests(authorize -> authorize.requestMatchers(WHITE_LIST_URL).permitAll().anyRequest().authenticated())
             .authenticationProvider(authenticationProvider)
             .sessionManagement(Customizer -> Customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

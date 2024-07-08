@@ -1,7 +1,8 @@
-package com.brieuc.dailymon.user;
+package com.brieuc.dailymon.entity.user;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,9 +26,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
+      @GeneratedValue(strategy = GenerationType.UUID)
       @Id
-      @GeneratedValue
-      private Integer id;
+      UUID id;
+
+      @Version
+      long version;
+
       // There is two getters for username and password that should be implemented
       // for the UserDetails interface, here it's done thanks to lombok getters.
       private String username;

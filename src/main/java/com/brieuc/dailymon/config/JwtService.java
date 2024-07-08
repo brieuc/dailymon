@@ -32,11 +32,12 @@ public class JwtService {
             return generateToken(new HashMap<>(), userDetails);
       }
 
-      public String generateToken(HashMap<String, Object> claims, UserDetails userDetails) {
+      public String generateToken(HashMap<String, Object> extraClaims, UserDetails userDetails) {
 
             return Jwts
                         .builder()
-                        .claims(claims)
+                        .claims(extraClaims)
+                        .subject(userDetails.getUsername())
                         .issuedAt(new Date(System.currentTimeMillis()))
                         .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 24)))
                         .signWith(getSigningKey(), Jwts.SIG.HS256)
@@ -51,7 +52,6 @@ public class JwtService {
       private boolean isTokenExpired(String jwt) {
             return extractExpiration(jwt).before(new Date(System.currentTimeMillis()));
       }
-
 
       public <T> T extractClaim(String jwt, Function<Claims, T> claimsResolver) {
             final Claims claims = extractAllClaims(jwt);
