@@ -141,7 +141,7 @@ public class EntryController {
         summaryInfoDto.setIngestedKcal(map.get("ingestedKcal"));
         summaryInfoDto.setSpentKcal(map.get("spentKcal"));;
         summaryInfoDto.setSportDuration(map.get("sportDuration"));
-        summaryInfoDto.setDrinkingBeer(map.get("drinkingBeer"));
+        //summaryInfoDto.setDrinkingBeer(map.get("drinkingBeer"));
         return summaryInfoDto;
     }
 
