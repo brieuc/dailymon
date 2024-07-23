@@ -71,18 +71,24 @@ public class ModelFacade {
 
     public void deleteModel(UUID id) {
         Optional<ModelFood> modelFood = this.modelFoodService.getModelById(id);
+        //modelFood.ifPresent(mf -> modelFoodService.deleteModel(mf));
+        
         if (modelFood.isPresent()) {
+            
             modelFoodService.deleteModel(modelFood.get());
+            return;
         }
 
         Optional<ModelSport> modelSport = this.modelSportService.getModelById(id);
         if (modelSport.isPresent()) {
             modelSportService.deleteModel(modelSport.get());
+            return;
         }
 
         Optional<ModelFree> modelFree = this.modelFreeService.getModelById(id);
         if (modelFree.isPresent()) {
             modelFreeService.deleteModel(modelFree.get());
+            return;
         }
     }
 
