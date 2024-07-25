@@ -33,4 +33,16 @@
       </addColumn>
 </changeSet>
 
+<changeSet id="9" author="Brieuc" >
+        <dropColumn tableName="model_food">
+            <column name="type"/>
+        </dropColumn>
+        <dropColumn tableName="model_free">
+	        <column name="label"/>
+        </dropColumn>
+        <dropColumn tableName="model_food">
+	        <column name="label"/>
+        </dropColumn>
+    </changeSet>
+
 </databaseChangeLog>
