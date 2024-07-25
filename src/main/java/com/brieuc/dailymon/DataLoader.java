@@ -1,40 +1,57 @@
 package com.brieuc.dailymon;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.brieuc.dailymon.entity.Sport;
 import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.entity.model.ModelFree;
 import com.brieuc.dailymon.entity.model.ModelSport;
+import com.brieuc.dailymon.entity.user.Role;
+import com.brieuc.dailymon.entity.user.User;
 import com.brieuc.dailymon.repository.EntrySportRepository;
 import com.brieuc.dailymon.repository.ModelFoodRepository;
 import com.brieuc.dailymon.repository.ModelFreeRepository;
 import com.brieuc.dailymon.repository.ModelSportRepository;
+import com.brieuc.dailymon.repository.UserRepository;
 
 @Component
 public class DataLoader implements ApplicationRunner {
 
-    private ModelFoodRepository modelFoodRepository;
-    private ModelSportRepository modelSportRepository;
-    private ModelFreeRepository modelFreeRepository;
-    private EntrySportRepository entrySportRepository;
+    private final ModelFoodRepository modelFoodRepository;
+    private final ModelSportRepository modelSportRepository;
+    private final ModelFreeRepository modelFreeRepository;
+    private final EntrySportRepository entrySportRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     DataLoader(ModelFoodRepository modelFoodRepository, ModelSportRepository modelSportRepository,
-                ModelFreeRepository modelFreeRepository, EntrySportRepository entrySportRepository) {
+                ModelFreeRepository modelFreeRepository, EntrySportRepository entrySportRepository,
+                UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.modelFoodRepository = modelFoodRepository;
         this.modelSportRepository = modelSportRepository;
         this.modelFreeRepository = modelFreeRepository;
         this.entrySportRepository = entrySportRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+
+        if (this.userRepository.count() == 0) {
+            User user = User.builder()
+                            .username("brieuc")
+                            .password(passwordEncoder.encode("PasswdThunder1982fr_"))
+                            .role(Role.ADMIN)
+                            .build();
+            this.userRepository.save(user);
+        }
+
         if (this.modelFoodRepository.count() > 0) {
             return;
         }
@@ -64,7 +81,6 @@ public class DataLoader implements ApplicationRunner {
         skate.setDescription("Skate");
         modelSportRepository.save(skate);
         
-
         ModelFree free = new ModelFree();
         free.setDescription("Free");
         free.setTitle("Free");
@@ -131,6 +147,5 @@ public class DataLoader implements ApplicationRunner {
         carreChocolat.setDescription("Carré de chocolat cailler");
         carreChocolat.setKcal(45);
         this.modelFoodRepository.save(carreChocolat);
-        
     }
 }

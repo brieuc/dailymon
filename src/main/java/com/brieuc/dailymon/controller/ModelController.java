@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brieuc.dailymon.ExistingEntriesException;
 import com.brieuc.dailymon.dto.ModelDto;
 import com.brieuc.dailymon.dto.ModelFoodDto;
 import com.brieuc.dailymon.dto.ModelFreeDto;
@@ -32,11 +33,11 @@ import com.brieuc.dailymon.service.ModelSportService;
 public class ModelController {
 
 
-    private ModelFoodService modelFoodService;
-    private ModelSportService modelSportService;
-    private ModelFreeService modelFreeService;
+    private final ModelFoodService modelFoodService;
+    private final ModelSportService modelSportService;
+    private final ModelFreeService modelFreeService;
 
-    private ModelFacade modelFacade;
+    private final ModelFacade modelFacade;
 
     @Autowired
     public ModelController(ModelFoodService modelFoodService,
@@ -107,8 +108,12 @@ public class ModelController {
     } 
 
     @DeleteMapping("/{id}")
-    public void deleteModel(@PathVariable(name = "id") UUID id) {
-        modelFacade.deleteModel(id);
+    public void deleteModel(@PathVariable(name = "id") UUID id) throws ExistingEntriesException {
+        try {
+            modelFacade.deleteModel(id);
+        } catch (ExistingEntriesException e) {
+            throw e;
+        }
     }
 
     private ModelDto toDto(Model model) {

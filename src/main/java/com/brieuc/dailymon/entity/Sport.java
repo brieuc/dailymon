@@ -9,5 +9,7 @@ public enum Sport {
     HIIT,
     BIKE,
     STREET_WORKOUT,
-    HIKING
+    HIKING,
+    SWIMMING,
+    CYCLING
 }

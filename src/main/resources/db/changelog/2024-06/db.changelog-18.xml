@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<databaseChangeLog
+   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+<changeSet  id="2"  author="Brieuc">
+      <addColumn tableName="model_food">
+            <column name="type"
+                  type="varchar(255)">
+                  <constraints nullable="false" />
+            </column>
+      </addColumn>
+</changeSet>
+
+<changeSet  id="7"  author="Brieuc">
+        <createTable tableName="user">
+            <column name="id" type="VARBINARY(36)">
+                <constraints primaryKey="true" primaryKeyName="PK_ENTRY_SPORT" nullable="false"/>
+            </column>
+            <column name="version" type="long"/>
+            <column name="username" type="varchar(255)"/>
+            <column name="password"  type="varchar(255)"/>
+        </createTable>
+</changeSet>
+
+<changeSet  id="8"  author="Brieuc">
+      <addColumn tableName="user">
+            <column name="role"
+                  type="varchar(30)">
+                  <constraints nullable="false" />
+            </column>
+      </addColumn>
+</changeSet>
+
+<changeSet id="9" author="Brieuc" >
+        <dropColumn tableName="model_food">
+            <column name="type"/>
+        </dropColumn>
+        <dropColumn tableName="model_free">
+	        <column name="label"/>
+        </dropColumn>
+        <dropColumn tableName="model_food">
+	        <column name="label"/>
+        </dropColumn>
+    </changeSet>
+
+</databaseChangeLog>
