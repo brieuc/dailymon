@@ -1,6 +1,5 @@
 package com.brieuc.dailymon.entity.entry;
 
-import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.model.ModelFood;
 
 import jakarta.persistence.Column;
@@ -25,9 +24,6 @@ public class EntryFood extends Entry {
 
     @Column(name = "quantity")
     Double quantity;
-
-    @Column(name = "food_type")
-    FoodType foodType;
 
     @ManyToOne
     @JoinColumn(name = "modelid", referencedColumnName = "id")
