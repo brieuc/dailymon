@@ -137,12 +137,14 @@ public class EntryController {
     public SummaryInfoDto getSummaryInfo(@RequestParam(name = "fromDate") LocalDate fromDate,
                                          @RequestParam(name = "toDate") LocalDate toDate) {
 
-        HashMap<String, Integer> map = entryFacade.getSummaryInfo(fromDate, toDate);
+        HashMap<String, Double> map = entryFacade.getSummaryInfo(fromDate, toDate);
         SummaryInfoDto summaryInfoDto = new SummaryInfoDto();
         summaryInfoDto.setIngestedKcal(map.get("ingestedKcal"));
-        summaryInfoDto.setSpentKcal(map.get("spentKcal"));;
+        summaryInfoDto.setSpentKcal(map.get("spentKcal"));
         summaryInfoDto.setSportDuration(map.get("sportDuration"));
-        //summaryInfoDto.setDrinkingBeer(map.get("drinkingBeer"));
+        summaryInfoDto.setDrinkingBeer(map.get("drinkingBeer"));
+        summaryInfoDto.setAerobic(map.get("aerobic"));
+        summaryInfoDto.setAnaerobic(map.get("anaerobic"));
         return summaryInfoDto;
     }
 

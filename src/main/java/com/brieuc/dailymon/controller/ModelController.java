@@ -125,6 +125,7 @@ public class ModelController {
             modelDto.setDescription(modelFood.getDescription());
             modelDto.setImage(modelFood.getImage());
             modelDto.setKcal(modelFood.getKcal());
+            modelDto.setFoodType(modelFood.getFoodType());
             return modelDto;
         }
         if (model instanceof ModelSport modelSport) {

@@ -1,7 +1,7 @@
 package com.brieuc.dailymon.entity;
 
 public enum FoodType {
-      ALCOOL,
+      ALCOHOL,
       YOGHOURT,
       MEAL,
       ICECREAM,

@@ -14,6 +14,7 @@ import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.dto.EntryFoodDto;
 import com.brieuc.dailymon.dto.EntryFreeDto;
 import com.brieuc.dailymon.dto.EntrySportDto;
+import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.entry.EntryFree;
@@ -61,11 +62,14 @@ public class EntryFacade {
         return entryFoodService.getEntriesByDate(date).stream().toList();
     }
 
-    public HashMap<String, Integer> getSummaryInfo(LocalDate fromDate, LocalDate toDate) {
+    public HashMap<String, Double> getSummaryInfo(LocalDate fromDate, LocalDate toDate) {
         
         int sportDuration = 0;
+        double anaerobic = 0.0;
+        double aerobic = 0.0;
         int spentKcal = 0;
         int ingestedKcal = 0;
+        double drinkingBeer = 0.0;
         int i = 0;
         LocalDate currentDate = fromDate;
         while (!currentDate.isAfter(toDate)) {
@@ -74,18 +78,29 @@ public class EntryFacade {
             for (EntrySport entrySport:entriesSport) {
                 sportDuration = sportDuration + entrySport.getDuration();
                 spentKcal = spentKcal + entrySport.getKcal();
+                anaerobic = anaerobic + entrySport.getAnaerobic();
+                aerobic = aerobic + entrySport.getAerobic();
             }
             List<EntryFood> entriesFood = entryFoodService.getEntriesByDate(currentDate);
             for (EntryFood entryFood:entriesFood) {
                 ingestedKcal = ingestedKcal + (entryFood.getQuantity().intValue() * entryFood.getModel().getKcal());
             }
+            drinkingBeer = drinkingBeer + entriesFood.stream()
+                                    .filter(e -> e.getModel().getFoodType() != null)
+                                    .filter(e -> e.getModel().getFoodType().equals(FoodType.ALCOHOL))
+                                    .mapToDouble(e -> (e.getQuantity() * e.getModel().getKcal()))
+                                    .sum();
+
             i++;
         }
 
-        HashMap<String, Integer> map = new HashMap<>();
-        map.put("spentKcal", spentKcal);
-        map.put("ingestedKcal", ingestedKcal);
-        map.put("sportDuration", sportDuration);
+        HashMap<String, Double> map = new HashMap<>();
+        map.put("spentKcal", Double.valueOf(spentKcal));
+        map.put("ingestedKcal", Double.valueOf(ingestedKcal));
+        map.put("sportDuration", Double.valueOf(sportDuration));
+        map.put("anaerobic", anaerobic);
+        map.put("aerobic", aerobic);
+        map.put("drinkingBeer", drinkingBeer);
         return map;
     }
 
