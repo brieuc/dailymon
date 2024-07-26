@@ -1,6 +1,8 @@
 package com.brieuc.dailymon.entity.model;
 
 
+import com.brieuc.dailymon.entity.FoodType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -22,6 +24,9 @@ public class ModelFood extends Model {
 
     @Column(name = "kcal")
     Integer kcal;
+
+    @Column(name = "food_type")
+    FoodType foodType;
 
     @Column(name = "image")
     String image;

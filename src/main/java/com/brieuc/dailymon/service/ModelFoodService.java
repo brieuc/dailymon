@@ -3,14 +3,13 @@ package com.brieuc.dailymon.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.brieuc.dailymon.ExistingEntriesException;
+import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.repository.EntryFoodRepository;
@@ -26,19 +25,21 @@ public class ModelFoodService {
     private final EntryFoodRepository entryFoodRepository;
 
 
-    public ModelFood createModel(String title, String description, int kcal, String image) {
-        ModelFood modelFood = new ModelFood(kcal, image);
+    public ModelFood createModel(String title, String description, int kcal, FoodType foodType, String image) {
+        ModelFood modelFood = new ModelFood(kcal, foodType, image);
         modelFood.setTitle(title);
         modelFood.setDescription(description);
         modelFood.setImage(image);
+        modelFood.setFoodType(foodType);
         modelFoodRepository.save(modelFood);
         return modelFood;
     }
 
-    public ModelFood updateModel(ModelFood modelFood, String title, String description, int kcal, String image) {
+    public ModelFood updateModel(ModelFood modelFood, String title, String description, int kcal, FoodType foodType, String image) {
         modelFood.setTitle(title);
         modelFood.setDescription(description);
         modelFood.setKcal(kcal);
+        modelFood.setFoodType(foodType);
         modelFood.setImage(image);
         modelFoodRepository.save(modelFood);
         return modelFood;

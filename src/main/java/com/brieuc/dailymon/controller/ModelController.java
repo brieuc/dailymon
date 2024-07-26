@@ -19,6 +19,7 @@ import com.brieuc.dailymon.dto.ModelDto;
 import com.brieuc.dailymon.dto.ModelFoodDto;
 import com.brieuc.dailymon.dto.ModelFreeDto;
 import com.brieuc.dailymon.dto.ModelSportDto;
+import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.model.Model;
 import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.entity.model.ModelFree;
@@ -85,7 +86,7 @@ public class ModelController {
 
     @PostMapping(value = "/food")
     public ModelDto createModel(@RequestBody ModelFoodDto modelFoodDto) {
-        ModelFood modelFood = modelFoodService.createModel(modelFoodDto.getTitle(), modelFoodDto.getDescription(), modelFoodDto.getKcal(), modelFoodDto.getImage());
+        ModelFood modelFood = modelFoodService.createModel(modelFoodDto.getTitle(), modelFoodDto.getDescription(), modelFoodDto.getKcal(), modelFoodDto.getFoodType(), modelFoodDto.getImage());
         return toDto(modelFood);
     } 
 
@@ -124,6 +125,7 @@ public class ModelController {
             modelDto.setDescription(modelFood.getDescription());
             modelDto.setImage(modelFood.getImage());
             modelDto.setKcal(modelFood.getKcal());
+            modelDto.setFoodType(modelFood.getFoodType());
             return modelDto;
         }
         if (model instanceof ModelSport modelSport) {

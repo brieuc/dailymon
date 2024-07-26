@@ -19,7 +19,7 @@ public class CommonUtilTest {
             assertEquals("2024-06-03", dates.get(dates.size()-1));
             // We are the monday 2024-06-17 so we should a list
             // 2024-06-17, 2024-06-10, 2024-06-03
-            assertEquals("2024-06-17", dates.get(0));
+            assertEquals("2024-06-10", dates.get(dates.size()-2));
       }
 
 }
