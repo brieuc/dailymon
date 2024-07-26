@@ -45,4 +45,12 @@
         </dropColumn>
     </changeSet>
 
+<changeSet  id="10"  author="Brieuc">
+      <addColumn tableName="model_food">
+            <column name="food_type"
+                  type="varchar(50)">
+            </column>
+      </addColumn>
+</changeSet>
+
 </databaseChangeLog>

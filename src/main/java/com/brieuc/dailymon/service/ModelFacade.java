@@ -36,7 +36,7 @@ public class ModelFacade {
     public Model createModel(ModelDto modelDto) {
         
         if (modelDto instanceof ModelFoodDto mfood) {
-            return this.modelFoodService.createModel(mfood.getTitle(), mfood.getDescription(), mfood.getKcal(), mfood.getImage());
+            return this.modelFoodService.createModel(mfood.getTitle(), mfood.getDescription(), mfood.getKcal(), mfood.getFoodType(), mfood.getImage());
         }
         if (modelDto instanceof ModelSportDto msport) {
             return this.modelSportService.createModel(msport.getTitle(), msport.getDescription(), msport.getSport(), msport.getImage());
@@ -51,7 +51,7 @@ public class ModelFacade {
         if (modelDto instanceof ModelFoodDto mfood) {
             Optional<ModelFood> modelFood = this.modelFoodService.getModelById(mfood.getId());
             if (modelFood.isPresent()) {
-                return this.modelFoodService.updateModel(modelFood.get(), mfood.getTitle(), mfood.getDescription(), mfood.getKcal(), mfood.getImage());
+                return this.modelFoodService.updateModel(modelFood.get(), mfood.getTitle(), mfood.getDescription(), mfood.getKcal(), mfood.getFoodType(), mfood.getImage());
             }
         }
         if (modelDto instanceof ModelSportDto msport) {
