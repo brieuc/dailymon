@@ -62,11 +62,11 @@ public class EntryFacade {
         return entryFoodService.getEntriesByDate(date).stream().toList();
     }
 
-    public HashMap<String, Double> getSummaryInfo(LocalDate fromDate, LocalDate toDate) {
+    public HashMap<String, Float> getSummaryInfo(LocalDate fromDate, LocalDate toDate) {
         
         int sportDuration = 0;
-        double anaerobic = 0.0;
-        double aerobic = 0.0;
+        float anaerobic = (float) 0.0;
+        float aerobic = (float) 0.0;
         int spentKcal = 0;
         int ingestedKcal = 0;
         double drinkingBeer = 0.0;
@@ -78,8 +78,8 @@ public class EntryFacade {
             for (EntrySport entrySport:entriesSport) {
                 sportDuration = sportDuration + entrySport.getDuration();
                 spentKcal = spentKcal + entrySport.getKcal();
-                anaerobic = anaerobic + entrySport.getAnaerobic();
-                aerobic = aerobic + entrySport.getAerobic();
+                anaerobic = anaerobic + entrySport.getAnaerobic().floatValue();
+                aerobic = aerobic + entrySport.getAerobic().floatValue();
             }
             List<EntryFood> entriesFood = entryFoodService.getEntriesByDate(currentDate);
             for (EntryFood entryFood:entriesFood) {
@@ -94,13 +94,13 @@ public class EntryFacade {
             i++;
         }
 
-        HashMap<String, Double> map = new HashMap<>();
-        map.put("spentKcal", Double.valueOf(spentKcal));
-        map.put("ingestedKcal", Double.valueOf(ingestedKcal));
-        map.put("sportDuration", Double.valueOf(sportDuration));
+        HashMap<String, Float> map = new HashMap<>();
+        map.put("spentKcal", Float.valueOf(spentKcal));
+        map.put("ingestedKcal", Float.valueOf(ingestedKcal));
+        map.put("sportDuration", Float.valueOf(sportDuration));
         map.put("anaerobic", anaerobic);
         map.put("aerobic", aerobic);
-        map.put("drinkingBeer", drinkingBeer);
+        map.put("drinkingBeer", (float) drinkingBeer);
         return map;
     }
 

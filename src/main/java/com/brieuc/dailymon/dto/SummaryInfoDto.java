@@ -11,15 +11,15 @@ import lombok.Setter;
 @Builder
 public class SummaryInfoDto {
       
-      double spentKcal;
-      double ingestedKcal;
-      double sportDuration;
-      double drinkingBeer;
-      double aerobic;
-      double anaerobic;
+      float spentKcal;
+      float ingestedKcal;
+      float sportDuration;
+      float drinkingBeer;
+      float aerobic;
+      float anaerobic;
 
-      public SummaryInfoDto(double spentKcal, double ingestedKcal, double sportDuration, double drinkingBeer,
-            double aerobic, double anaerobic) {
+      public SummaryInfoDto(float spentKcal, float ingestedKcal, float sportDuration, float drinkingBeer,
+                  float aerobic, float anaerobic) {
             this.spentKcal = spentKcal;
             this.ingestedKcal = ingestedKcal;
             this.sportDuration = sportDuration;

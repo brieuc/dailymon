@@ -137,7 +137,7 @@ public class EntryController {
     public SummaryInfoDto getSummaryInfo(@RequestParam(name = "fromDate") LocalDate fromDate,
                                          @RequestParam(name = "toDate") LocalDate toDate) {
 
-        HashMap<String, Double> map = entryFacade.getSummaryInfo(fromDate, toDate);
+        HashMap<String, Float> map = entryFacade.getSummaryInfo(fromDate, toDate);
         SummaryInfoDto summaryInfoDto = new SummaryInfoDto();
         summaryInfoDto.setIngestedKcal(map.get("ingestedKcal"));
         summaryInfoDto.setSpentKcal(map.get("spentKcal"));
