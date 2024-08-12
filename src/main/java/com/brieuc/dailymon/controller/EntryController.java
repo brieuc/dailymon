@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieuc.dailymon.CommonUtil;
+import com.brieuc.dailymon.CreateEntry;
+import com.brieuc.dailymon.UpdateEntry;
 import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.dto.EntryFoodDto;
 import com.brieuc.dailymon.dto.EntryFreeDto;
@@ -78,27 +80,27 @@ public class EntryController {
 
     @PutMapping("/{id}/sport")
     // @ResponseBody no need it's included in @RestController
-    public EntryDto updateSportEntry(@PathVariable UUID id, @RequestBody EntrySportDto entrySportDto) {
+    public EntryDto updateSportEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntrySportDto entrySportDto) {
         Entry entry = this.entryFacade.updateEntry(entrySportDto);
         return toDto(entry);
     }
 
     @PostMapping(value = "/sport")
-    public EntryDto createEntry(@RequestBody EntrySportDto entrySportDto) {
+    public EntryDto createEntry(@Validated(CreateEntry.class) @RequestBody EntrySportDto entrySportDto) {
         Entry entry = this.entryFacade.createEntry(entrySportDto);
         return toDto(entry);
     }
 
     @PutMapping("/{id}/free")
     // @ResponseBody no need it's included in @RestController
-    public EntryDto updateFreeEntry(@PathVariable UUID id, @RequestBody EntryFreeDto entryFreeDto) {
+    public EntryDto updateFreeEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryFreeDto entryFreeDto) {
         // TODO il manque le check avec l'id de @PathVariable et la DTO
         Entry entry = this.entryFacade.updateEntry(entryFreeDto);
         return toDto(entry);
     }
 
     @PostMapping(value = "/free")
-    public EntryDto createEntry(@Validated @RequestBody EntryFreeDto entryFreeDto) {
+    public EntryDto createEntry(@Validated(CreateEntry.class) @RequestBody EntryFreeDto entryFreeDto) {
         Entry entry = this.entryFacade.createEntry(entryFreeDto);
         return toDto(entry);
     }
