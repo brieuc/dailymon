@@ -23,11 +23,11 @@ public class EntryDto {
     UUID id;
     @NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Title couldn't be null")
     String title;
-    @NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Description couldn't be null")
+    //@NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Description couldn't be null")
     String description;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(groups = {CreateEntry.class}, message = "Date couldn't be null")
     LocalDate date;
-    @NotNull(groups = {CreateEntry.class}, message = "UUID model couldn't be null")
+    @NotNull(groups = {CreateEntry.class}, message = "Model couldn't be null")
     UUID modelId;
 }
