@@ -12,5 +12,6 @@ public enum Sport {
     HIKING,
     SWIMMING,
     CYCLING,
-    FREE
+    FREE,
+    SQUASH
 }
