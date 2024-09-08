@@ -11,5 +11,6 @@ public enum Sport {
     STREET_WORKOUT,
     HIKING,
     SWIMMING,
-    CYCLING
+    CYCLING,
+    FREE
 }
