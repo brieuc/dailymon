@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.Sport;
 import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.entity.model.ModelFree;
@@ -90,6 +91,7 @@ public class DataLoader implements ApplicationRunner {
         blueMoon.setDescription("Bluemoon 1DL");
         blueMoon.setTitle("Bluemoon 1DL");
         blueMoon.setKcal(47);
+        blueMoon.setFoodType(FoodType.ALCOHOL);
         this.modelFoodRepository.save(blueMoon);
         
 /*

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -26,27 +25,26 @@ import com.brieuc.dailymon.UpdateEntry;
 import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.dto.EntryFoodDto;
 import com.brieuc.dailymon.dto.EntryFreeDto;
+import com.brieuc.dailymon.dto.EntryFreeFoodDto;
 import com.brieuc.dailymon.dto.EntrySportDto;
 import com.brieuc.dailymon.dto.SummaryInfoDto;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.entry.EntryFree;
+import com.brieuc.dailymon.entity.entry.EntryFreeFood;
 import com.brieuc.dailymon.entity.entry.EntrySport;
 import com.brieuc.dailymon.service.EntryFacade;
 import com.brieuc.dailymon.service.ModelFacade;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/entry")
 public class EntryController {
 
-    private EntryFacade entryFacade;
-    private ModelFacade modelFacade;
-
-    @Autowired
-    public EntryController(EntryFacade entryFacade, ModelFacade modelFacade) {
-        this.entryFacade = entryFacade;
-        this.modelFacade = modelFacade;
-    }
+    private final EntryFacade entryFacade;
+    private final ModelFacade modelFacade;
 /*
     @GetMapping("/search")
     @ResponseBody
@@ -75,6 +73,12 @@ public class EntryController {
     @PostMapping(value = "/food")
     public EntryDto createEntry(@RequestBody EntryFoodDto entryFoodDto) {
         Entry entry = this.entryFacade.createEntry(entryFoodDto);
+        return toDto(entry);
+    }
+
+    @PostMapping(value = "/free/food")
+    public EntryDto createEntry(@RequestBody EntryFreeFoodDto entryFreeFoodDto) {
+        Entry entry = this.entryFacade.createEntry(entryFreeFoodDto);
         return toDto(entry);
     }
 
@@ -188,9 +192,20 @@ public class EntryController {
             EntryFreeDto entryDto = new EntryFreeDto();
             entryDto.setId(entryFree.getId());
             entryDto.setTitle(entryFree.getTitle());
-            entryDto.setDescription(entry.getDescription());
+            entryDto.setDescription(entryFree.getDescription());
             entryDto.setDate(entryFree.getDate());
             entryDto.setModelId(entryFree.getModel().getId());
+            return entryDto;
+        }
+        if (entry instanceof EntryFreeFood entryFreeFood) {
+            EntryFreeFoodDto entryDto = new EntryFreeFoodDto();
+            entryDto.setId(entryFreeFood.getId());
+            entryDto.setTitle(entryFreeFood.getTitle());
+            entryDto.setDescription(entryFreeFood.getDescription());
+            entryDto.setKcal(entryFreeFood.getKcal());
+            entryDto.setFoodType(entryFreeFood.getFoodType());
+            entryDto.setDate(entryFreeFood.getDate());
+            entryDto.setModelId(entryFreeFood.getModel().getId());
             return entryDto;
         }
         return null;
