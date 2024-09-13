@@ -7,45 +7,37 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.dto.EntryFoodDto;
 import com.brieuc.dailymon.dto.EntryFreeDto;
+import com.brieuc.dailymon.dto.EntryFreeFoodDto;
 import com.brieuc.dailymon.dto.EntrySportDto;
 import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.entry.EntryFree;
+import com.brieuc.dailymon.entity.entry.EntryFreeFood;
 import com.brieuc.dailymon.entity.entry.EntrySport;
 import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.entity.model.ModelFree;
 import com.brieuc.dailymon.entity.model.ModelSport;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Component
 public class EntryFacade {
     
-    private EntryFoodService entryFoodService;
-    private EntryFreeService entryFreeService;
-    private EntrySportService entrySportService;
+    private final EntryFoodService entryFoodService;
+    private final EntryFreeService entryFreeService;
+    private final EntrySportService entrySportService;
+    private final EntryFreeFoodService entryFreeFoodService;
 
-    private ModelFoodService modelFoodService;
-    private ModelFreeService modelFreeService;
-    private ModelSportService modelSportService;
-
-    @Autowired
-    public EntryFacade(EntryFoodService entryFoodService, EntryFreeService entryFreeService,
-                        EntrySportService entrySportService, ModelFoodService modelFoodService,
-                        ModelFreeService modelFreeService, ModelSportService modelSportService) {
-
-        this.entryFoodService = entryFoodService;
-        this.entrySportService = entrySportService;
-        this.entryFreeService = entryFreeService;
-        this.modelFoodService = modelFoodService;
-        this.modelSportService = modelSportService;
-        this.modelFreeService = modelFreeService;
-    }
+    private final ModelFoodService modelFoodService;
+    private final ModelFreeService modelFreeService;
+    private final ModelSportService modelSportService;
 
     public LocalDate getMinEntryDate() {
         return entryFoodService.getMinEntryDate();
@@ -53,9 +45,12 @@ public class EntryFacade {
 
     public List<? extends Entry> getEntriesByDate(LocalDate date) {
         List<EntryFood> entriesFood = entryFoodService.getEntriesByDate(date);
-        List<EntryFree> entriesFree = entryFreeService.getEntriesByDate(date);
+ 
         List<EntrySport> entriesSport = entrySportService.getEntriesByDate(date);
-        return Stream.concat(entriesSport.stream(), Stream.concat(entriesFood.stream(), entriesFree.stream())).toList();
+        List<EntryFree> entriesFree = entryFreeService.getEntriesByDate(date);
+        List<EntryFreeFood> entriesFreeFood = entryFreeFoodService.getEntriesByDate(date);
+        return Stream.concat(Stream.concat(entriesSport.stream(), entriesFood.stream()), 
+                    Stream.concat(entriesFree.stream(), entriesFreeFood.stream())).toList();
     }
 
     public List<EntryFood> getFoodEntriesByDate(LocalDate date) {
@@ -85,11 +80,20 @@ public class EntryFacade {
             for (EntryFood entryFood:entriesFood) {
                 ingestedKcal = ingestedKcal + (entryFood.getQuantity().intValue() * entryFood.getModel().getKcal());
             }
+            // Add the global entry free food kcal
+            ingestedKcal = ingestedKcal + entryFreeFoodService.getEntriesByDate(currentDate).stream().mapToInt(e -> e.getKcal()).sum();
+
             drinkingBeer = drinkingBeer + entriesFood.stream()
                                     .filter(e -> e.getModel().getFoodType() != null)
                                     .filter(e -> e.getModel().getFoodType().equals(FoodType.ALCOHOL))
                                     .mapToDouble(e -> (e.getQuantity() * e.getModel().getKcal()))
                                     .sum();
+
+            // Add the alcohol from free food
+            drinkingBeer = drinkingBeer + entryFreeFoodService.getEntriesByDate(currentDate)
+                    .stream().filter(e -> e.getFoodType() == FoodType.ALCOHOL).mapToInt(e -> e.getKcal()).sum();
+            
+                        
 
             i++;
         }
@@ -102,6 +106,22 @@ public class EntryFacade {
         map.put("aerobic", aerobic);
         map.put("drinkingBeer", drinkingBeer);
         return map;
+    }
+
+    public EntryFreeFood createEntry(EntryFreeFoodDto entryFreeFoodDto) {
+        UUID modelId = entryFreeFoodDto.getModelId();
+        Optional<ModelFree> model = modelFreeService.getModelById(modelId);
+        if (model.isPresent()) {
+            EntryFreeFood entryFreeFood = entryFreeFoodService.createEntry(model.get(), entryFreeFoodDto.getDate(),
+                                entryFreeFoodDto.getTitle(),                                                        
+                                entryFreeFoodDto.getDescription(),
+                                entryFreeFoodDto.getFoodType(),
+                                entryFreeFoodDto.getKcal());
+            return entryFreeFood;
+        }
+        else {
+            throw new RuntimeException("model " + entryFreeFoodDto.getModelId() + " not found");
+        }  
     }
 
     public Entry createEntry(EntryDto entryDto) {
@@ -182,15 +202,17 @@ public class EntryFacade {
         if (entryFood.isPresent()) {
             entryFoodService.deleteEntry(entryFood.get());
         }
-
         Optional<EntrySport> entrySport = this.entrySportService.getEntryById(id);
         if (entrySport.isPresent()) {
             entrySportService.deleteEntry(entrySport.get());
         }
-
         Optional<EntryFree> entryFree = this.entryFreeService.getEntryById(id);
         if (entryFree.isPresent()) {
             entryFreeService.deleteEntry(entryFree.get());
+        }
+        Optional<EntryFreeFood> entryFreeFood = this.entryFreeFoodService.getEntryById(id);
+        if (entryFreeFood.isPresent()) {
+            entryFreeFoodService.deleteEntry(entryFreeFood.get());
         }
     }
 }
