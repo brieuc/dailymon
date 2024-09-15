@@ -194,6 +194,15 @@ public class EntryFacade {
                 return entryFreeUpdate;
             }
         }
+        if (entryDto instanceof EntryFreeFoodDto entryFreeFoodDto) {
+            Optional<EntryFreeFood> entryFreeFood = this.entryFreeFoodService.getEntryById(entryFreeFoodDto.getId());
+            if (entryFreeFood.isPresent()) {
+                EntryFreeFood entryFreeUpdate = entryFreeFoodService.updateEntry(entryFreeFood.get(),
+                                entryFreeFoodDto.getTitle(), entryFreeFoodDto.getDescription(),
+                                entryFreeFoodDto.getFoodType(), entryFreeFoodDto.getKcal());
+                return entryFreeUpdate;
+            }
+        }
         return null;
     }
 
