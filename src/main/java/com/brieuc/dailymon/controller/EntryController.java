@@ -36,6 +36,7 @@ import com.brieuc.dailymon.entity.entry.EntrySport;
 import com.brieuc.dailymon.service.EntryFacade;
 import com.brieuc.dailymon.service.ModelFacade;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -131,7 +132,7 @@ public class EntryController {
     }
 
     @GetMapping("/{date}")
-    public List<EntryDto> getEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public List<EntryDto> getEntries(@PathVariable @NotNull(message = "Date cannot be null") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return this.entryFacade.getEntriesByDate(date).stream().map(this::toDto).toList();
     }
  
