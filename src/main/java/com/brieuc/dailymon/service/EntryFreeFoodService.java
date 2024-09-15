@@ -48,9 +48,12 @@ public class EntryFreeFoodService {
             return entryRepository.findByDate(date);
       }
 
-      public EntryFreeFood updateEntry(EntryFreeFood entry, String title, String description) {
+      public EntryFreeFood updateEntry(EntryFreeFood entry, String title, String description,
+                                          FoodType foodType, Integer kcal) {
             entry.setTitle(title);
             entry.setDescription(description);
+            entry.setFoodType(foodType);
+            entry.setKcal(kcal);
             entryRepository.save(entry);
             return entry;
       }

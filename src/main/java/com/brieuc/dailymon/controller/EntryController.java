@@ -82,6 +82,13 @@ public class EntryController {
         return toDto(entry);
     }
 
+    @PutMapping("/{id}/free/food")
+    // @ResponseBody no need it's included in @RestController
+    public EntryDto updateFreeFoodEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryFreeFoodDto entryFreeFoodDto) {
+        Entry entry = this.entryFacade.updateEntry(entryFreeFoodDto);
+        return toDto(entry);
+    }
+
     @PutMapping("/{id}/sport")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateSportEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntrySportDto entrySportDto) {
@@ -159,8 +166,6 @@ public class EntryController {
     public void deleteEntry(@PathVariable(name = "id") UUID id) {
         entryFacade.deleteEntry(id);
     }
-
-
 
     private EntryDto toDto(Entry entry) {
         if (entry instanceof EntryFood entryFood) {
