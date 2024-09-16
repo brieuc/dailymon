@@ -65,10 +65,10 @@ public class EntryFacade {
         int spentKcal = 0;
         int ingestedKcal = 0;
         double drinkingBeer = 0.0;
-        int i = 0;
+        int i = 1;
         LocalDate currentDate = fromDate;
         while (!currentDate.isAfter(toDate)) {
-            currentDate = fromDate.plusDays(i);
+
             List<EntrySport> entriesSport = entrySportService.getEntriesByDate(currentDate);
             for (EntrySport entrySport:entriesSport) {
                 sportDuration = sportDuration + entrySport.getDuration();
@@ -96,6 +96,7 @@ public class EntryFacade {
                         
 
             i++;
+            currentDate = fromDate.plusDays(i);
         }
 
         HashMap<String, Double> map = new HashMap<>();
