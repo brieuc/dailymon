@@ -65,10 +65,10 @@ public class EntryFacade {
         int spentKcal = 0;
         int ingestedKcal = 0;
         double drinkingBeer = 0.0;
-        int i = 1;
+        int i = 0;
         LocalDate currentDate = fromDate;
-        while (!currentDate.isAfter(toDate)) {
 
+        while (!currentDate.isAfter(toDate)) {
             List<EntrySport> entriesSport = entrySportService.getEntriesByDate(currentDate);
             for (EntrySport entrySport:entriesSport) {
                 sportDuration = sportDuration + entrySport.getDuration();
