@@ -19,6 +19,10 @@ target/
 *.iml
 *.ipr
 
+# Ignore Mac DS_Store files
+.DS_Store
+
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

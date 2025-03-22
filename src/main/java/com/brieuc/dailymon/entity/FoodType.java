@@ -5,5 +5,6 @@ public enum FoodType {
       YOGHOURT,
       MEAL,
       ICECREAM,
-      JUNKFOOD
+      JUNKFOOD,
+      CHOCO
 }
