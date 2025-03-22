@@ -10,8 +10,8 @@ services:
       - 50000:50000
     container_name: jenkins
     volumes:
-      - /home/debian/jenkins/configuration:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${JENKINS_HOME}
+      - ${JENKINS_DOCKER}
     
   db:
     image: mariadb:10.6
@@ -23,7 +23,7 @@ services:
       MARIADB_ROOT_PASSWORD: BrieucGorin
       MARIADB_DATABASE: cashtagdb
     volumes:
-      - /home/debian/var-lib-mysql/:/var/lib/mysql
+      - ${MARIADB_HOME}
     ports:
       - 3306:3306
 
@@ -52,6 +52,10 @@ services:
       - "network1"
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - ${NGINX_CONF}
+      - ${CERTBOT}
     depends_on:
       - backend
 
