@@ -1,5 +1,7 @@
 package com.brieuc.dailymon;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,6 +20,8 @@ import com.brieuc.dailymon.repository.ModelFoodRepository;
 import com.brieuc.dailymon.repository.ModelFreeRepository;
 import com.brieuc.dailymon.repository.ModelSportRepository;
 import com.brieuc.dailymon.repository.UserRepository;
+
+import ch.qos.logback.core.model.Model;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -82,12 +86,14 @@ public class DataLoader implements ApplicationRunner {
         skate.setDescription("Skate");
         modelSportRepository.save(skate);
         
-        ModelFree free = new ModelFree();
+         ModelFree free = ModelFree.builder()
+            .id(UUID.randomUUID()).build();
         free.setDescription("Free");
         free.setTitle("Free");
         this.modelFreeRepository.save(free);
 
-        ModelFood blueMoon = new ModelFood();
+         ModelFood blueMoon = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         blueMoon.setDescription("Bluemoon 1DL");
         blueMoon.setTitle("Bluemoon 1DL");
         blueMoon.setKcal(47);
@@ -113,38 +119,45 @@ public class DataLoader implements ApplicationRunner {
         entrySportRepository.save(entryFit);
         */
 
-        ModelFood inglewood = new ModelFood();
+        ModelFood inglewood = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         inglewood.setDescription("Inglewood Honey Goat");
         inglewood.setTitle("Inglewood");
         inglewood.setKcal(1000);
         this.modelFoodRepository.save(inglewood);
 
-        ModelFood pizza = new ModelFood();
+        ModelFood pizza = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         pizza.setDescription("Pizza");
         pizza.setTitle("Pizza");
         pizza.setKcal(1200);
         this.modelFoodRepository.save(pizza);
 
-        ModelFood mcDonald = new ModelFood();
+         ModelFood mcDonald = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         mcDonald.setTitle("Menu Big Mac");
         mcDonald.setDescription("Menu Big Mac Medium");
         mcDonald.setKcal(850);
         this.modelFoodRepository.save(mcDonald);
 
 
-        ModelFood mcFleuryRagusa = new ModelFood();
+         ModelFood mcFleuryRagusa = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         mcFleuryRagusa.setTitle("McFlurry");
         mcFleuryRagusa.setDescription("McFlurry");
         mcFleuryRagusa.setKcal(540);
         this.modelFoodRepository.save(mcFleuryRagusa);
 
-        ModelFood brancheCailler = new ModelFood();
+         ModelFood brancheCailler = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         brancheCailler.setTitle("Branche Cailler");
         brancheCailler.setDescription("Branche cailler");
         brancheCailler.setKcal(160);
         this.modelFoodRepository.save(brancheCailler);
 
-        ModelFood carreChocolat = new ModelFood();
+
+         ModelFood carreChocolat = ModelFood.builder()
+            .id(UUID.randomUUID()).build();
         carreChocolat.setTitle("Carré de chocolat");
         carreChocolat.setDescription("Carré de chocolat cailler");
         carreChocolat.setKcal(45);

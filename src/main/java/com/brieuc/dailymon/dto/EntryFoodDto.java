@@ -1,5 +1,7 @@
 package com.brieuc.dailymon.dto;
 
+import java.util.UUID;
+
 import com.brieuc.dailymon.entity.FoodType;
 
 import jakarta.validation.constraints.Digits;
@@ -9,10 +11,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class EntryFoodDto extends EntryDto {

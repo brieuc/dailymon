@@ -1,15 +1,13 @@
 package com.brieuc.dailymon.dto;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
 @Getter
 @Setter
-@Builder
-public class ModelFreeDto extends ModelDto{
+@SuperBuilder
+public class ModelFreeDto extends ModelDto {
     
 
 }
