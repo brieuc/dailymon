@@ -2,17 +2,17 @@ package com.brieuc.dailymon.entity.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @SuperBuilder
-@Builder
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "model_free")
 public class ModelFree extends Model {
