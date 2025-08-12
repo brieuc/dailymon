@@ -7,17 +7,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@SuperBuilder
 @Setter
 @Getter
+@Builder
+
 @Entity
 @Table(name = "model_sport")
 public class ModelSport extends Model {

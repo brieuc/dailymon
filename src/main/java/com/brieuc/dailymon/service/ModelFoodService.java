@@ -26,11 +26,14 @@ public class ModelFoodService {
 
 
     public ModelFood createModel(String title, String description, int kcal, FoodType foodType, String image) {
-        ModelFood modelFood = new ModelFood(kcal, foodType, image);
-        modelFood.setTitle(title);
-        modelFood.setDescription(description);
-        modelFood.setImage(image);
-        modelFood.setFoodType(foodType);
+        ModelFood modelFood = ModelFood.builder()
+            .id(UUID.randomUUID())
+            .title(title)
+            .description(description)
+            .kcal(kcal)
+            .foodType(foodType)
+            .image(image)
+            .build();
         modelFoodRepository.save(modelFood);
         return modelFood;
     }

@@ -23,9 +23,13 @@ public class ModelSportService {
     }
 
     public ModelSport createModel(String title, String description, Sport sport, String image) {
-        ModelSport modelSport = new ModelSport(sport, image);
-        modelSport.setTitle(title);
-        modelSport.setDescription(description);
+        ModelSport modelSport = ModelSport.builder()
+            .id(UUID.randomUUID())
+            .title(title)
+            .description(description)
+            .sport(sport)
+            .image(image)
+            .build();
         modelSportRepository.save(modelSport);
         return modelSport;
     }

@@ -22,9 +22,11 @@ public class ModelFreeService {
     }
     
     public ModelFree createModel(String title, String description) {
-        ModelFree modelFree = new ModelFree();
-        modelFree.setTitle(title);
-        modelFree.setDescription(description);
+        ModelFree modelFree = ModelFree.builder()
+            .id(UUID.randomUUID())
+            .title(title)
+            .description(description)
+            .build();
         modelFreeRepository.save(modelFree);
         return modelFree;
     }

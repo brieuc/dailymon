@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -29,10 +30,7 @@ import com.brieuc.dailymon.dto.EntryFreeFoodDto;
 import com.brieuc.dailymon.dto.EntrySportDto;
 import com.brieuc.dailymon.dto.SummaryInfoDto;
 import com.brieuc.dailymon.entity.entry.Entry;
-import com.brieuc.dailymon.entity.entry.EntryFood;
-import com.brieuc.dailymon.entity.entry.EntryFree;
-import com.brieuc.dailymon.entity.entry.EntryFreeFood;
-import com.brieuc.dailymon.entity.entry.EntrySport;
+import com.brieuc.dailymon.mapper.EntryMapper;
 import com.brieuc.dailymon.service.EntryFacade;
 import com.brieuc.dailymon.service.ModelFacade;
 
@@ -46,6 +44,7 @@ public class EntryController {
 
     private final EntryFacade entryFacade;
     private final ModelFacade modelFacade;
+    private final EntryMapper entryMapper;
 /*
     @GetMapping("/search")
     @ResponseBody
@@ -68,39 +67,39 @@ public class EntryController {
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateFoodEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
         Entry entry = this.entryFacade.updateEntry(entryFoodDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PostMapping(value = "/food")
     public EntryDto createEntry(@RequestBody EntryFoodDto entryFoodDto) {
         Entry entry = this.entryFacade.createEntry(entryFoodDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PostMapping(value = "/free/food")
     public EntryDto createEntry(@RequestBody EntryFreeFoodDto entryFreeFoodDto) {
         Entry entry = this.entryFacade.createEntry(entryFreeFoodDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PutMapping("/{id}/free/food")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateFreeFoodEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryFreeFoodDto entryFreeFoodDto) {
         Entry entry = this.entryFacade.updateEntry(entryFreeFoodDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PutMapping("/{id}/sport")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateSportEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntrySportDto entrySportDto) {
         Entry entry = this.entryFacade.updateEntry(entrySportDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PostMapping(value = "/sport")
     public EntryDto createEntry(@Validated(CreateEntry.class) @RequestBody EntrySportDto entrySportDto) {
         Entry entry = this.entryFacade.createEntry(entrySportDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PutMapping("/{id}/free")
@@ -108,19 +107,19 @@ public class EntryController {
     public EntryDto updateFreeEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryFreeDto entryFreeDto) {
         // TODO il manque le check avec l'id de @PathVariable et la DTO
         Entry entry = this.entryFacade.updateEntry(entryFreeDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
     @PostMapping(value = "/free")
     public EntryDto createEntry(@Validated(CreateEntry.class) @RequestBody EntryFreeDto entryFreeDto) {
         Entry entry = this.entryFacade.createEntry(entryFreeDto);
-        return toDto(entry);
+        return entryMapper.toDto(entry);
     }
 
 
     @GetMapping("/{date}/food")
     public List<EntryDto> getFoodEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return this.entryFacade.getFoodEntriesByDate(date).stream().map(this::toDto).toList();
+        return this.entryFacade.getFoodEntriesByDate(date).stream().map(e -> entryMapper.toDto(e)).toList();
     }
 
     @GetMapping(value = "/firstDate", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -133,7 +132,7 @@ public class EntryController {
 
     @GetMapping("/{date}")
     public List<EntryDto> getEntries(@PathVariable @NotNull(message = "Date cannot be null") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return this.entryFacade.getEntriesByDate(date).stream().map(this::toDto).toList();
+        return this.entryFacade.getEntriesByDate(date).stream().map(e -> entryMapper.toDto(e)).toList();
     }
  
 
@@ -166,54 +165,5 @@ public class EntryController {
     @DeleteMapping("/{id}")
     public void deleteEntry(@PathVariable(name = "id") UUID id) {
         entryFacade.deleteEntry(id);
-    }
-
-    private EntryDto toDto(Entry entry) {
-        if (entry instanceof EntryFood entryFood) {
-            EntryFoodDto entryDto = new EntryFoodDto();
-            entryDto.setId(entryFood.getId());
-            entryDto.setTitle(entryFood.getTitle());
-            entryDto.setDescription(entry.getDescription() == null ?
-            entryFood.getModel().getTitle() : entry.getDescription());
-            entryDto.setQuantity(entryFood.getQuantity());
-            entryDto.setDate(entryFood.getDate());
-            entryDto.setModelId(entryFood.getModel().getId());
-            return entryDto;
-        }
-        if (entry instanceof EntrySport entrySport) {
-            EntrySportDto entryDto = new EntrySportDto();
-            entryDto.setId(entry.getId());
-            entryDto.setTitle(entrySport.getTitle());
-            entryDto.setDescription(entrySport.getDescription());
-            entryDto.setDate(entrySport.getDate());
-            entryDto.setModelId(entrySport.getModel().getId());
-            entryDto.setAerobic(entrySport.getAerobic());
-            entryDto.setAnaerobic(entrySport.getAnaerobic());
-            entryDto.setDuration(entrySport.getDuration());
-            entryDto.setBenefit(entrySport.getBenefit());
-            entryDto.setKcal(entrySport.getKcal());
-            return entryDto;
-        }
-        if (entry instanceof EntryFree entryFree) {
-            EntryFreeDto entryDto = new EntryFreeDto();
-            entryDto.setId(entryFree.getId());
-            entryDto.setTitle(entryFree.getTitle());
-            entryDto.setDescription(entryFree.getDescription());
-            entryDto.setDate(entryFree.getDate());
-            entryDto.setModelId(entryFree.getModel().getId());
-            return entryDto;
-        }
-        if (entry instanceof EntryFreeFood entryFreeFood) {
-            EntryFreeFoodDto entryDto = new EntryFreeFoodDto();
-            entryDto.setId(entryFreeFood.getId());
-            entryDto.setTitle(entryFreeFood.getTitle());
-            entryDto.setDescription(entryFreeFood.getDescription());
-            entryDto.setKcal(entryFreeFood.getKcal());
-            entryDto.setFoodType(entryFreeFood.getFoodType());
-            entryDto.setDate(entryFreeFood.getDate());
-            entryDto.setModelId(entryFreeFood.getModel().getId());
-            return entryDto;
-        }
-        return null;
     }
 }

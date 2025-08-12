@@ -119,29 +119,32 @@ public class ModelController {
 
     private ModelDto toDto(Model model) {
         if (model instanceof ModelFood modelFood) {
-            ModelFoodDto modelDto = new ModelFoodDto();
-            modelDto.setId(modelFood.getId());
-            modelDto.setTitle(modelFood.getTitle());
-            modelDto.setDescription(modelFood.getDescription());
-            modelDto.setImage(modelFood.getImage());
-            modelDto.setKcal(modelFood.getKcal());
-            modelDto.setFoodType(modelFood.getFoodType());
+            ModelFoodDto modelDto = ModelFoodDto.builder()
+                .id(modelFood.getId())
+                .title(modelFood.getTitle())
+                .description(modelFood.getDescription())
+                .image(modelFood.getImage())
+                .kcal(modelFood.getKcal())
+                .foodType(modelFood.getFoodType())
+                .build();
             return modelDto;
         }
         if (model instanceof ModelSport modelSport) {
-            ModelSportDto modelDto = new ModelSportDto();
-            modelDto.setId(modelSport.getId());
-            modelDto.setSport(modelSport.getSport());
-            modelDto.setTitle(modelSport.getTitle());
-            modelDto.setDescription(modelSport.getDescription());
-            modelDto.setImage(modelSport.getImage());
+            ModelSportDto modelDto = ModelSportDto.builder()
+                .id(modelSport.getId())
+                .sport(modelSport.getSport())
+                .title(modelSport.getTitle())
+                .description(modelSport.getDescription())
+                .image(modelSport.getImage())
+                .build();
             return modelDto;
         }
         if (model instanceof ModelFree modelFree) {
-            ModelFreeDto modelDto = new ModelFreeDto();
-            modelDto.setId(modelFree.getId());
-            modelDto.setTitle(modelFree.getTitle());
-            modelDto.setDescription(modelFree.getDescription());
+            ModelFreeDto modelDto = ModelFreeDto.builder()
+                .id(modelFree.getId())
+                .title(modelFree.getTitle())
+                .description(modelFree.getDescription())
+                .build();
             return modelDto;
         }
         return null;
