@@ -12,5 +12,8 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "model_free")
 public class ModelFree extends Model {
+      public ModelFree() {
+            
+      }
 
 }
