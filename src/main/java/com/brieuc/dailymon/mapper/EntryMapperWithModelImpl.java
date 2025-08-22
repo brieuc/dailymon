@@ -40,7 +40,6 @@ public class EntryMapperWithModelImpl implements EntryMapper {
         return EntryFoodDto.builder()
                 // Champs spécifiques à EntryFood
                 .quantity(entry.getQuantity())
-                .foodType(entry.getModel().getFoodType())
                 .model((ModelFoodDto) modelMapper.toDto(entry.getModel())) // ✅ Model inclus !
                 // Champs communs
                 .id(entry.getId())
@@ -48,7 +47,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .description(entry.getDescription() == null ? 
                     entry.getModel().getTitle() : entry.getDescription())
                 .date(entry.getDate())
-                .modelId(entry.getModel().getId())
+                .model((ModelFoodDto) modelMapper.toDto(entry.getModel()))
                 .build();
     }
 

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import com.brieuc.dailymon.dto.SummaryInfoDto;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.mapper.EntryMapper;
 import com.brieuc.dailymon.service.EntryFacade;
-import com.brieuc.dailymon.service.ModelFacade;
+import com.brieuc.dailymon.service.EntryService;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -43,36 +42,19 @@ import lombok.RequiredArgsConstructor;
 public class EntryController {
 
     private final EntryFacade entryFacade;
-    private final ModelFacade modelFacade;
+    private final EntryService entryService;
     private final EntryMapper entryMapper;
-/*
-    @GetMapping("/search")
-    @ResponseBody
-    public HashMap<LocalDate, List<EntryDto>> getEntries( @RequestParam LocalDate fromDate,
-                                                    @RequestParam LocalDate toDate) {
-        
-        int NbDays = 30, i = 0;
-        HashMap<LocalDate, List<EntryDto>> map = new HashMap<>();
-
-        LocalDate currentDate = LocalDate.now();
-        for (i=0; i<=NbDays; i++) {
-            currentDate = currentDate.minusDays(i);
-            map.put(currentDate, this.entryService.getEntriesByDate(currentDate).stream().map(this::toDto).toList());
-        }
-        return map;
-    }
-*/
 
     @PutMapping("/{id}/food")
     // @ResponseBody no need it's included in @RestController
-    public EntryDto updateFoodEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
-        Entry entry = this.entryFacade.updateEntry(entryFoodDto);
+    public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
+        Entry entry = entryService.updateEntry(entryFoodDto);
         return entryMapper.toDto(entry);
     }
 
-    @PostMapping(value = "/food")
-    public EntryDto createEntry(@RequestBody EntryFoodDto entryFoodDto) {
-        Entry entry = this.entryFacade.createEntry(entryFoodDto);
+    @PostMapping
+    public EntryDto createEntry(@RequestBody EntryDto entryDto) {
+        Entry entry = entryService.createEntry(entryDto);
         return entryMapper.toDto(entry);
     }
 

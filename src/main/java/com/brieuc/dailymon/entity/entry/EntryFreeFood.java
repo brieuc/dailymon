@@ -1,23 +1,22 @@
 package com.brieuc.dailymon.entity.entry;
 
 import com.brieuc.dailymon.entity.FoodType;
-import com.brieuc.dailymon.entity.model.ModelFree;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "entry_free_food")
 // No way to inherit directly for EntryFree, the deep inheritance doesn't
@@ -29,8 +28,4 @@ public class EntryFreeFood extends Entry {
 
       @Column(name = "kcal")
       int kcal;
-
-      @ManyToOne
-      @JoinColumn(name = "modelid", referencedColumnName = "id")
-      ModelFree model;
 }

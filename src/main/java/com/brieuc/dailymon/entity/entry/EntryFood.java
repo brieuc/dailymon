@@ -12,10 +12,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Setter
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -24,8 +25,4 @@ public class EntryFood extends Entry {
 
     @Column(name = "quantity")
     Double quantity;
-
-    @ManyToOne
-    @JoinColumn(name = "modelid", referencedColumnName = "id")
-    ModelFood model;
 }
