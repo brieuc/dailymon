@@ -1,24 +1,21 @@
 package com.brieuc.dailymon.entity.entry;
 
 import com.brieuc.dailymon.entity.Benefit;
-import com.brieuc.dailymon.entity.model.ModelSport;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -40,8 +37,4 @@ public class EntrySport extends Entry {
     @Enumerated(EnumType.STRING)
     @Column(name = "benefit")  // Tempo, Sprint, Base, Anaerobic,..
     Benefit benefit;
-
-    @ManyToOne
-    @JoinColumn(name = "modelid", referencedColumnName = "id")
-    ModelSport model;
 }

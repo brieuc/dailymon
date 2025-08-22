@@ -84,9 +84,9 @@ public class EntryFacade {
             ingestedKcal = ingestedKcal + entryFreeFoodService.getEntriesByDate(currentDate).stream().mapToInt(e -> e.getKcal()).sum();
 
             drinkingBeer = drinkingBeer + entriesFood.stream()
-                                    .filter(e -> e.getModel().getFoodType() != null)
-                                    .filter(e -> e.getModel().getFoodType().equals(FoodType.ALCOHOL))
-                                    .mapToDouble(e -> (e.getQuantity() * e.getModel().getKcal()))
+                                    .filter(e -> ((ModelFood) e.getModel()).getFoodType() != null)
+                                    .filter(e -> ((ModelFood) e.getModel()).getFoodType().equals(FoodType.ALCOHOL))
+                                    .mapToDouble(e -> (e.getQuantity() * ((ModelFreeFood) e.getModel()).getKcal()))
                                     .sum();
 
             // Add the alcohol from free food

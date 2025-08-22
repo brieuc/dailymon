@@ -5,4 +5,5 @@ import com.brieuc.dailymon.entity.entry.Entry;
 
 public interface EntryMapper {
     EntryDto toDto(Entry entry);
+    Entry toEntity(EntryDto entryDto);
 }

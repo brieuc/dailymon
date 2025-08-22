@@ -12,9 +12,12 @@ import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.entry.EntryFree;
 import com.brieuc.dailymon.entity.entry.EntryFreeFood;
 import com.brieuc.dailymon.entity.entry.EntrySport;
+import com.brieuc.dailymon.entity.model.ModelFood;
 
 @Component
 public class EntryMapperImpl implements EntryMapper {
+
+    private final ModelService modelService;
 
     @Override
     public EntryDto toDto(Entry entry) {
@@ -31,7 +34,7 @@ public class EntryMapperImpl implements EntryMapper {
         return EntryFoodDto.builder()
                 // Champs spécifiques à EntryFood
                 .quantity(entry.getQuantity())
-                .foodType(entry.getModel().getFoodType()) // Depuis le model
+                .foodType(((ModelFood) entry.getModel()).getFoodType()) // Depuis le model
                 // Champs communs
                 .id(entry.getId())
                 .title(entry.getTitle())
@@ -83,5 +86,22 @@ public class EntryMapperImpl implements EntryMapper {
                 .date(entry.getDate())
                 .modelId(entry.getModel().getId())
                 .build();
+    }
+
+    @Override
+    public Entry toEntity(EntryDto entryDto) {
+        return switch (entryDto) {
+            case EntryFoodDto entryFoodDto -> toEntity(entryFoodDto);
+        }
+    }
+
+    public EntryFood toEntity(EntryFoodDto entryFoodDto) {
+        return EntryFood.builder()
+            .date(entryFoodDto.getDate())
+            .description(entryFoodDto.getDescription())
+            .title(entryFoodDto.getTitle())
+            .quantity(entryFoodDto.getQuantity())
+            .model
+            .build()
     }
 }
