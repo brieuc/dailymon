@@ -45,6 +45,13 @@ public class EntryController {
     private final EntryService entryService;
     private final EntryMapper entryMapper;
 
+
+    @PostMapping
+    public EntryDto createEntry(@RequestBody EntryDto entryDto) {
+        Entry entry = entryService.createEntry(entryMapper.toEntity(entryDto));
+        return entryMapper.toDto(entry);
+    }
+
     @PutMapping("/{id}/food")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
@@ -52,11 +59,6 @@ public class EntryController {
         return entryMapper.toDto(entry);
     }
 
-    @PostMapping
-    public EntryDto createEntry(@RequestBody EntryDto entryDto) {
-        Entry entry = entryService.createEntry(entryDto);
-        return entryMapper.toDto(entry);
-    }
 
     @PostMapping(value = "/free/food")
     public EntryDto createEntry(@RequestBody EntryFreeFoodDto entryFreeFoodDto) {
