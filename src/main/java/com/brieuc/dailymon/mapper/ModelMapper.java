@@ -8,4 +8,5 @@ import com.brieuc.dailymon.entity.model.Model;
 @Component
 public interface ModelMapper {
       ModelDto toDto(Model model);
+      Model toEntity(ModelDto modelDto);
 }

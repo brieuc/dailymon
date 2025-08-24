@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.entity.FoodType;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.entity.entry.EntryFood;
@@ -87,21 +86,25 @@ public class EntryServiceImpl implements EntryService {
       }
 
       @Override
-      public Entry createEntry(EntryDto entryDto) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'createEntry'");
+      public Entry createEntry(Entry entry) {
+            return entryRepository.save(entry);
       }
 
       @Override
-      public Entry updateEntry(EntryDto entryDto) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'updateEntry'");
+      public Entry updateEntry(Entry newEntry) {
+            if (!entryRepository.existsById(newEntry.getId())) {
+                  throw new RuntimeException("Entry to update not found");
+            }
+            return entryRepository.save(newEntry);
       }
+      
 
       @Override
       public void deleteEntry(UUID id) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'deleteEntry'");
+            if (!entryRepository.existsById(id)) {
+                  throw new RuntimeException("Entry to delete not found");
+            }
+            entryRepository.deleteById(id);
       }
       
 }

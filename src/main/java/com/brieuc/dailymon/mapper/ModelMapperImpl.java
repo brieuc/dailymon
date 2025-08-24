@@ -58,4 +58,47 @@ public class ModelMapperImpl implements ModelMapper {
                 .image(model.getImage())
                 .build();
     }
+
+    @Override
+    public Model toEntity(ModelDto modelDto) {
+        return switch (modelDto) {
+            case ModelFoodDto foodDto -> createFoodEntity(foodDto);
+            case ModelFreeDto freeDto -> createFreeEntity(freeDto);
+            case ModelSportDto sportDto -> createSportEntity(sportDto);
+            default -> null;
+        };
+    }
+
+    private ModelFood createFoodEntity(ModelFoodDto dto) {
+        return ModelFood.builder()
+                // Champs spécifiques à ModelFood
+                .kcal(dto.getKcal())
+                .foodType(dto.getFoodType())
+                .image(dto.getImage())
+                // Champs communs de Model
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .build();
+    }
+
+    private ModelFree createFreeEntity(ModelFreeDto dto) {
+        return ModelFree.builder()
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .build();
+    }
+
+    private ModelSport createSportEntity(ModelSportDto dto) {
+        return ModelSport.builder()
+                // Champs spécifiques à ModelSport
+                .sport(dto.getSport())
+                .image(dto.getImage())
+                // Champs communs de Model
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .build();
+    }
 }

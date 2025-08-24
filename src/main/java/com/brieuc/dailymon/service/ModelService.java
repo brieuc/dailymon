@@ -12,7 +12,7 @@ import com.brieuc.dailymon.entity.model.Model;
 public interface ModelService {
       List<Model> getModels();
       Optional<Model> getModelById(@NonNull UUID modelId);
-      Model createModel(ModelDto modelDto);
-      Model updateModel(ModelDto modelDto);
+      Model createModel(Model model);
+      Model updateModel(Model model);
       void deleteModel(UUID id);
 }
