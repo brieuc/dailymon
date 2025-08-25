@@ -86,16 +86,16 @@ public class EntryServiceImpl implements EntryService {
       }
 
       @Override
-      public Entry createEntry(Entry entry) {
-            return entryRepository.save(entry);
+      public Entry createEntry(Entry newEntry) {
+            return entryRepository.save(newEntry);
       }
 
       @Override
-      public Entry updateEntry(Entry newEntry) {
-            if (!entryRepository.existsById(newEntry.getId())) {
+      public Entry updateEntry(Entry updatedEntry) {
+            if (!entryRepository.existsById(updatedEntry.getId())) {
                   throw new RuntimeException("Entry to update not found");
             }
-            return entryRepository.save(newEntry);
+            return entryRepository.save(updatedEntry);
       }
       
 

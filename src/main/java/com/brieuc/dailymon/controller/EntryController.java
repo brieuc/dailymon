@@ -41,7 +41,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(value = "/entry")
 public class EntryController {
 
-    private final EntryFacade entryFacade;
     private final EntryService entryService;
     private final EntryMapper entryMapper;
 
@@ -52,71 +51,23 @@ public class EntryController {
         return entryMapper.toDto(entry);
     }
 
-    @PutMapping("/{id}/food")
+    @PutMapping("/{id}")
     // @ResponseBody no need it's included in @RestController
     public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
-        Entry entry = entryService.updateEntry(entryFoodDto);
+        Entry entry = entryService.updateEntry(entryMapper.toEntity(entryFoodDto));
         return entryMapper.toDto(entry);
-    }
-
-
-    @PostMapping(value = "/free/food")
-    public EntryDto createEntry(@RequestBody EntryFreeFoodDto entryFreeFoodDto) {
-        Entry entry = this.entryFacade.createEntry(entryFreeFoodDto);
-        return entryMapper.toDto(entry);
-    }
-
-    @PutMapping("/{id}/free/food")
-    // @ResponseBody no need it's included in @RestController
-    public EntryDto updateFreeFoodEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryFreeFoodDto entryFreeFoodDto) {
-        Entry entry = this.entryFacade.updateEntry(entryFreeFoodDto);
-        return entryMapper.toDto(entry);
-    }
-
-    @PutMapping("/{id}/sport")
-    // @ResponseBody no need it's included in @RestController
-    public EntryDto updateSportEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntrySportDto entrySportDto) {
-        Entry entry = this.entryFacade.updateEntry(entrySportDto);
-        return entryMapper.toDto(entry);
-    }
-
-    @PostMapping(value = "/sport")
-    public EntryDto createEntry(@Validated(CreateEntry.class) @RequestBody EntrySportDto entrySportDto) {
-        Entry entry = this.entryFacade.createEntry(entrySportDto);
-        return entryMapper.toDto(entry);
-    }
-
-    @PutMapping("/{id}/free")
-    // @ResponseBody no need it's included in @RestController
-    public EntryDto updateFreeEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryFreeDto entryFreeDto) {
-        // TODO il manque le check avec l'id de @PathVariable et la DTO
-        Entry entry = this.entryFacade.updateEntry(entryFreeDto);
-        return entryMapper.toDto(entry);
-    }
-
-    @PostMapping(value = "/free")
-    public EntryDto createEntry(@Validated(CreateEntry.class) @RequestBody EntryFreeDto entryFreeDto) {
-        Entry entry = this.entryFacade.createEntry(entryFreeDto);
-        return entryMapper.toDto(entry);
-    }
-
-
-    @GetMapping("/{date}/food")
-    public List<EntryDto> getFoodEntries(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return this.entryFacade.getFoodEntriesByDate(date).stream().map(e -> entryMapper.toDto(e)).toList();
     }
 
     @GetMapping(value = "/firstDate", produces = MediaType.APPLICATION_JSON_VALUE)
-    // TODO without using EntryDTO, surely a better way
     public List<String> getFirstDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = entryFacade.getMinEntryDate().format(formatter);
+        String date = entryService.getMinEntryDate().format(formatter);
         return List.of(date);
     }
 
     @GetMapping("/{date}")
     public List<EntryDto> getEntries(@PathVariable @NotNull(message = "Date cannot be null") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return this.entryFacade.getEntriesByDate(date).stream().map(e -> entryMapper.toDto(e)).toList();
+        return entryService.getEntriesByDate(date).stream().map(e -> entryMapper.toDto(e)).toList();
     }
  
 
@@ -134,7 +85,7 @@ public class EntryController {
     public SummaryInfoDto getSummaryInfo(@RequestParam(name = "fromDate") LocalDate fromDate,
                                          @RequestParam(name = "toDate") LocalDate toDate) {
 
-        HashMap<String, Double> map = entryFacade.getSummaryInfo(fromDate, toDate);
+        HashMap<String, Double> map = entryService.getSummaryInfo(fromDate, toDate);
         SummaryInfoDto summaryInfoDto = new SummaryInfoDto();
         summaryInfoDto.setIngestedKcal(map.get("ingestedKcal"));
         summaryInfoDto.setSpentKcal(map.get("spentKcal"));
@@ -148,6 +99,6 @@ public class EntryController {
     // the name = "id" is not mandatory if the variable has the same name though.
     @DeleteMapping("/{id}")
     public void deleteEntry(@PathVariable(name = "id") UUID id) {
-        entryFacade.deleteEntry(id);
+        entryService.deleteEntry(id);
     }
 }
