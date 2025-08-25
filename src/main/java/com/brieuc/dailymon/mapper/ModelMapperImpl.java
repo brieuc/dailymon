@@ -84,6 +84,8 @@ public class ModelMapperImpl implements ModelMapper {
 
     private ModelFree createFreeEntity(ModelFreeDto dto) {
         return ModelFree.builder()
+                // Pas de champs spécifiques pour ModelFree
+                // Champs communs de Model
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .description(dto.getDescription())

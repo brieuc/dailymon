@@ -8,14 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import com.brieuc.dailymon.dto.ModelDto;
-import com.brieuc.dailymon.dto.ModelFoodDto;
-import com.brieuc.dailymon.dto.ModelFreeDto;
-import com.brieuc.dailymon.dto.ModelSportDto;
 import com.brieuc.dailymon.entity.model.Model;
-import com.brieuc.dailymon.entity.model.ModelFood;
-import com.brieuc.dailymon.entity.model.ModelFree;
-import com.brieuc.dailymon.entity.model.ModelSport;
 import com.brieuc.dailymon.mapper.ModelMapper;
 import com.brieuc.dailymon.repository.ModelRepository;
 
@@ -37,69 +30,15 @@ public class ModelServiceImpl implements ModelService {
             return modelRepository.findById(modelId);
       }
       
-      public Model createModel(ModelDto modelDto) {
-
-            Model model = switch (modelDto) {
-                  case ModelFoodDto modelFoodDto -> {
-                        Model m = ModelFood.builder()
-                        // .propriétés depuis modelFoodDto
-                        .build();
-                        modelRepository.save(m);
-                        yield m;
-                  }
-                  case ModelFreeDto modelFreeDto -> {
-                        Model m = ModelFree.builder()
-                        // .propriétés depuis modelFreeDto
-                        .build();
-                        modelRepository.save(m);
-                        yield m;
-                  }
-                  case ModelSportDto modelSportDto -> {
-                        Model m = ModelSport.builder()
-                        // .propriétés depuis modelSportDto
-                        .build();
-                        modelRepository.save(m);
-                        yield m;
-                  }
-                  default -> throw new IllegalArgumentException("Type de DTO non supporté: " + modelDto.getClass());
-            };
-    
-            return model;
+      public Model createModel(Model newModel) {
+            modelRepository.save(newModel);
+            return newModel;
       }
 
-      public Model updateModel(ModelDto modelDto) {
-            // Récupérer l'entité existante
-            Model existingModel = modelRepository.findById(modelDto.getId())
-                  .orElseThrow(() -> new EntityNotFoundException("Model not found with id: " + modelDto.getId()));
-            
-            // Mettre à jour selon le type
-            Model updatedModel = switch (modelDto) {
-                  case ModelFoodDto foodDto -> {
-                        ModelFood foodModel = (ModelFood) existingModel;
-                        // Mettre à jour les propriétés
-                        foodModel.setTitle(foodDto.getTitle());
-                        foodModel.setDescription(foodDto.getDescription());
-                        foodModel.setKcal(foodDto.getKcal());
-                        // ... autres propriétés
-                        yield foodModel;
-                  }
-                  case ModelFreeDto freeDto -> {
-                        ModelFree freeModel = (ModelFree) existingModel;
-                        freeModel.setTitle(freeDto.getTitle());
-                        freeModel.setDescription(freeDto.getDescription());
-                        // ... autres propriétés
-                        yield freeModel;
-                  }
-                  case ModelSportDto sportDto -> {
-                        ModelSport sportModel = (ModelSport) existingModel;
-                        sportModel.setTitle(sportDto.getTitle());
-                        sportModel.setDescription(sportDto.getDescription());
-                        // ... autres propriétés
-                        yield sportModel;
-                  }
-                  default -> throw new IllegalArgumentException("Type de DTO non supporté: " + modelDto.getClass());
-            };
-            
+      public Model updateModel(Model updatedModel) {
+            if (!modelRepository.existsById(updatedModel.getId())) {
+                  throw new RuntimeException("Model to update not found");
+            }
             return modelRepository.save(updatedModel);
       }
 
