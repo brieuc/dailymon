@@ -5,7 +5,6 @@ import com.brieuc.dailymon.entity.Benefit;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,5 +32,4 @@ public class EntrySportDto extends EntryDto {
     @NotNull(message = "Benefit couldn't be null")
     Benefit benefit;
     ModelSportDto model;
-    final String type="SPORT";
 }

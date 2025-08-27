@@ -11,6 +11,11 @@ import com.brieuc.dailymon.entity.model.Model;
 
 public interface ModelService {
       List<Model> getModels();
+
+      List<? extends Model> getFoodModels();
+      List<? extends Model> getFreeModels();
+      List<? extends Model> getSportModels();
+
       Optional<Model> getModelById(@NonNull UUID modelId);
       Model createModel(Model model);
       Model updateModel(Model model);

@@ -19,5 +19,4 @@ public class EntryFoodDto extends EntryDto {
     @Digits(integer = 3, fraction = 0, message = "Incorrect quantity input")
     Double quantity;
     ModelFoodDto model;
-    final String type="FOOD";
 }
