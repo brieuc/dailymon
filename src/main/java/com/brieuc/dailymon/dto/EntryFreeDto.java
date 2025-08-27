@@ -13,5 +13,4 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class EntryFreeDto extends EntryDto {
       ModelFreeDto model;
-      final String type="FREE";
 }

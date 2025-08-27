@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,17 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieuc.dailymon.CommonUtil;
-import com.brieuc.dailymon.CreateEntry;
-import com.brieuc.dailymon.UpdateEntry;
 import com.brieuc.dailymon.dto.EntryDto;
 import com.brieuc.dailymon.dto.EntryFoodDto;
-import com.brieuc.dailymon.dto.EntryFreeDto;
-import com.brieuc.dailymon.dto.EntryFreeFoodDto;
-import com.brieuc.dailymon.dto.EntrySportDto;
 import com.brieuc.dailymon.dto.SummaryInfoDto;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.mapper.EntryMapper;
-import com.brieuc.dailymon.service.EntryFacade;
 import com.brieuc.dailymon.service.EntryService;
 
 import jakarta.validation.constraints.NotNull;
@@ -43,7 +36,6 @@ public class EntryController {
 
     private final EntryService entryService;
     private final EntryMapper entryMapper;
-
 
     @PostMapping
     public EntryDto createEntry(@RequestBody EntryDto entryDto) {

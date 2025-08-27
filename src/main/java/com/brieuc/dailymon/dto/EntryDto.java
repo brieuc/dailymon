@@ -6,6 +6,8 @@ import java.util.UUID;
 import com.brieuc.dailymon.CreateEntry;
 import com.brieuc.dailymon.UpdateEntry;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +20,19 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = EntryFoodDto.class, name = "FOOD"),
+    @JsonSubTypes.Type(value = EntrySportDto.class, name = "SPORT"),
+    @JsonSubTypes.Type(value = EntryFreeDto.class, name = "FREE"),
+    @JsonSubTypes.Type(value = EntryFreeFoodDto.class, name = "FREE_FOOD")
+})
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class EntryDto {

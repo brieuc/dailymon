@@ -58,6 +58,7 @@ public class EntryServiceImpl implements EntryService {
                   if (entry instanceof EntryFood entryFood) {
                         ingestedKcal = ingestedKcal + (entryFood.getQuantity().intValue() * ((ModelFood) entryFood.getModel()).getKcal());
                         drinkingBeer = drinkingBeer + Optional.of(entryFood)
+                                    .filter(e -> ((ModelFood) e.getModel()).getFoodType() != null)
                                     .filter(e -> ((ModelFood) e.getModel()).getFoodType().equals(FoodType.ALCOHOL))
                                     .map(e -> e.getQuantity() * ((ModelFood) entryFood.getModel()).getKcal())
                                     .orElse(0.0);
@@ -66,6 +67,7 @@ public class EntryServiceImpl implements EntryService {
                         ingestedKcal = ingestedKcal + entryFreeFood.getKcal();
                                           // Add the alcohol from free food
                         drinkingBeer = drinkingBeer + Optional.of(entryFreeFood)
+                                    .filter(e -> e.getFoodType() != null)
                                     .filter(e -> e.getFoodType().equals(FoodType.ALCOHOL))
                                     .map(e -> e.getKcal() * 1.0)
                                     .orElse(0.0);

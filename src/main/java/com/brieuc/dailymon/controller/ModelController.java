@@ -1,5 +1,6 @@
 package com.brieuc.dailymon.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brieuc.dailymon.ExistingEntriesException;
 import com.brieuc.dailymon.dto.ModelDto;
-import com.brieuc.dailymon.dto.ModelFoodDto;
 import com.brieuc.dailymon.entity.model.Model;
-import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.mapper.ModelMapper;
 import com.brieuc.dailymon.service.ModelService;
 
@@ -29,14 +28,30 @@ public class ModelController {
     private final ModelService modelService;
     private final ModelMapper modelMapper;
 
+    @GetMapping(value = "/food")
+    public List<ModelDto> getFoodModels() {
+        return modelService.getFoodModels().stream().map(f -> modelMapper.toDto(f)).toList();
+    }
+
+    @GetMapping(value = "/free")
+    public List<ModelDto> getFreeModels() {
+        return modelService.getFreeModels().stream().map(f -> modelMapper.toDto(f)).toList();
+    }
+
+    @GetMapping(value = "/sport")
+    public List<ModelDto> getSportModels() {
+        return modelService.getSportModels().stream().map(f -> modelMapper.toDto(f)).toList();
+    }
+
     @GetMapping(value = "/{id}")
     public ModelDto getModel(@PathVariable(name = "id") UUID modelId) {
-        return modelMapper.toDto(modelService.getModelById(modelId));
+        Model model = modelService.getModelById(modelId).orElseThrow(() -> new RuntimeException("Model Id does not exist"));
+        return modelMapper.toDto(model);
     }
 
     @PostMapping
     public ModelDto createModel(@RequestBody ModelDto modelDto) {
-        Model model = modelService.createModel(modelMapper.toEntity(modelDto)));
+        Model model = modelService.createModel(modelMapper.toEntity(modelDto));
         return modelMapper.toDto(model);
     } 
 

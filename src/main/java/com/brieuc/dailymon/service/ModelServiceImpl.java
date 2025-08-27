@@ -26,6 +26,18 @@ public class ModelServiceImpl implements ModelService {
             return modelRepository.findAll();
       }
 
+      public List<? extends Model> getFoodModels() {
+            return modelRepository.findAllModelFood();
+      }
+
+      public List<? extends Model> getFreeModels() {
+            return modelRepository.findAllModelFree();
+      }
+
+      public List<? extends Model> getSportModels() {
+            return modelRepository.findAllModelSport();      
+      }
+
       public Optional<Model> getModelById(@NonNull UUID modelId) {
             return modelRepository.findById(modelId);
       }
