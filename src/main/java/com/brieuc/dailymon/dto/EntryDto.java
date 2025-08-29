@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.brieuc.dailymon.CreateEntry;
 import com.brieuc.dailymon.UpdateEntry;
+import com.brieuc.dailymon.entity.entry.EntryType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -24,14 +25,13 @@ import lombok.experimental.SuperBuilder;
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.EXISTING_PROPERTY,
-    property = "type" // Utilise un champ déjà présent
+    property = "type"
 )
-
 @JsonSubTypes({
-    @JsonSubTypes.Type(EntryFoodDto.class),
-    @JsonSubTypes.Type(EntrySportDto.class),
-    @JsonSubTypes.Type(EntryFreeDto.class),
-    @JsonSubTypes.Type(EntryFreeFoodDto.class)
+    @JsonSubTypes.Type(value = EntryFoodDto.class, name = "FOOD"),
+    @JsonSubTypes.Type(value = EntrySportDto.class, name = "SPORT"),
+    @JsonSubTypes.Type(value = EntryFreeDto.class, name = "FREE"),
+    @JsonSubTypes.Type(value = EntryFreeFoodDto.class, name = "FREE_FOOD")
 })
 
 @NoArgsConstructor
@@ -44,8 +44,10 @@ public class EntryDto {
     //@NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Description couldn't be null")
     String description;
     
+    EntryType type;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @NotNull(groups = {CreateEntry.class}, message = "Date couldn't be null")
+    @NotNull(groups = {CreateEntry.class, UpdateEntry.class}, message = "Date couldn't be null")
     LocalDate date;
     @NotNull(groups = {CreateEntry.class}, message = "Model couldn't be null")
     UUID modelId;

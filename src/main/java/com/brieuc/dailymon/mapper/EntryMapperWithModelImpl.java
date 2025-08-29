@@ -16,6 +16,7 @@ import com.brieuc.dailymon.entity.entry.EntryFood;
 import com.brieuc.dailymon.entity.entry.EntryFree;
 import com.brieuc.dailymon.entity.entry.EntryFreeFood;
 import com.brieuc.dailymon.entity.entry.EntrySport;
+import com.brieuc.dailymon.entity.entry.EntryType;
 import com.brieuc.dailymon.entity.model.Model;
 import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.entity.model.ModelFree;
@@ -49,14 +50,15 @@ public class EntryMapperWithModelImpl implements EntryMapper {
         return EntryFoodDto.builder()
                 // Champs spécifiques à EntryFood
                 .quantity(entry.getQuantity())
-                .model((ModelFoodDto) modelMapper.toDto(entry.getModel())) // ✅ Model inclus !
                 // Champs communs
                 .id(entry.getId())
                 .title(entry.getTitle())
                 .description(entry.getDescription() == null ? 
                     entry.getModel().getTitle() : entry.getDescription())
                 .date(entry.getDate())
+                .modelId(entry.getModel().getId())
                 .model((ModelFoodDto) modelMapper.toDto(entry.getModel()))
+                .type(EntryType.FOOD)
                 .build();
     }
 
@@ -75,6 +77,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .description(entry.getDescription())
                 .date(entry.getDate())
                 .modelId(entry.getModel().getId())
+                .type(EntryType.SPORT)
                 .build();
     }
 
@@ -88,7 +91,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 // Pas de champs spécifiques pour EntryFree
                 .model((ModelFreeDto) modelMapper.toDto(entry.getModel())) // ✅ Model inclus !
                 // Champs communs
-
+                .type(EntryType.FREE)
                 .build();
     }
 
@@ -104,6 +107,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .description(entry.getDescription())
                 .date(entry.getDate())
                 .modelId(entry.getModel().getId())
+                .type(EntryType.FREE_FOOD)
                 .build();
     }
 
