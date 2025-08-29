@@ -23,14 +23,15 @@ import lombok.experimental.SuperBuilder;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type"
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "type" // Utilise un champ déjà présent
 )
+
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = EntryFoodDto.class, name = "FOOD"),
-    @JsonSubTypes.Type(value = EntrySportDto.class, name = "SPORT"),
-    @JsonSubTypes.Type(value = EntryFreeDto.class, name = "FREE"),
-    @JsonSubTypes.Type(value = EntryFreeFoodDto.class, name = "FREE_FOOD")
+    @JsonSubTypes.Type(EntryFoodDto.class),
+    @JsonSubTypes.Type(EntrySportDto.class),
+    @JsonSubTypes.Type(EntryFreeDto.class),
+    @JsonSubTypes.Type(EntryFreeFoodDto.class)
 })
 
 @NoArgsConstructor
@@ -42,6 +43,7 @@ public class EntryDto {
     String title;
     //@NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Description couldn't be null")
     String description;
+    
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(groups = {CreateEntry.class}, message = "Date couldn't be null")
     LocalDate date;
