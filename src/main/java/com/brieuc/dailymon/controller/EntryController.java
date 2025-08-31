@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieuc.dailymon.CommonUtil;
+import com.brieuc.dailymon.CreateEntry;
+import com.brieuc.dailymon.UpdateEntry;
 import com.brieuc.dailymon.dto.EntryDto;
-import com.brieuc.dailymon.dto.EntryFoodDto;
 import com.brieuc.dailymon.dto.SummaryInfoDto;
 import com.brieuc.dailymon.entity.entry.Entry;
 import com.brieuc.dailymon.mapper.EntryMapper;
@@ -38,15 +40,15 @@ public class EntryController {
     private final EntryMapper entryMapper;
 
     @PostMapping
-    public EntryDto createEntry(@RequestBody EntryDto entryDto) {
+    public EntryDto createEntry(@Validated(CreateEntry.class)  @RequestBody EntryDto entryDto) {
         Entry entry = entryService.createEntry(entryMapper.toEntity(entryDto));
         return entryMapper.toDto(entry);
     }
 
     @PutMapping("/{id}")
     // @ResponseBody no need it's included in @RestController
-    public EntryDto updateEntry(@PathVariable UUID id, @RequestBody EntryFoodDto entryFoodDto) {
-        Entry entry = entryService.updateEntry(entryMapper.toEntity(entryFoodDto));
+    public EntryDto updateEntry(@PathVariable UUID id, @Validated(UpdateEntry.class) @RequestBody EntryDto entryDto) {
+        Entry entry = entryService.updateEntry(entryMapper.toEntity(entryDto));
         return entryMapper.toDto(entry);
     }
 
