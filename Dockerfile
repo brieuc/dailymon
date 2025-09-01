@@ -7,6 +7,7 @@ COPY pom.xml .
 
 COPY src ./src
 # Build the application using Maven
+ENV MAVEN_OPTS="-Xmx1024m -Xms512m"
 RUN mvn clean package -DskipTests
 
 # Use an official eclipse temurin image as the base image
