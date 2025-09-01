@@ -31,6 +31,9 @@ services:
       - "network1"
     ports:
       - 8080:8080
+      - 8443:8443
+    volumes:
+      - ${CERTBOT_CONF_LETSENCRYPT}:ro
     depends_on:
       - db
 
@@ -42,11 +45,17 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ${NGINX_CONF}
-      - ${CERTBOT}
+      - ${CERTBOT_WWW}:ro
+      - ${CERTBOT_CONF_NGINX}:ro
     depends_on:
       - backend
 
+  certbot:
+      image: certbot/certbot:latest
+      volumes:
+        - ${CERTBOT_WWW}:rw
+        - ${CERTBOT_CONF_LETSENCRYPT}:rw
+      
 networks:
   network1:
     name: network1
