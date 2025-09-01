@@ -1,19 +1,6 @@
 version: '3.1'
 
 services:
-  jenkins:
-    image: jenkins-with-docker
-    privileged: true
-    user: root
-    ports:
-      - 8083:8080
-      - 50000:50000
-    container_name: jenkins
-    volumes:
-      - ${JENKINS_HOME}
-      - ${JENKINS_DOCKER}
-      - /home/debian/dailymon:/home/debian/dailymon
-    
   db:
     image: mariadb:10.6
     container_name: mariadb_container
