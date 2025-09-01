@@ -12,6 +12,7 @@ services:
     volumes:
       - ${JENKINS_HOME}
       - ${JENKINS_DOCKER}
+      - /home/debian/dailymon:/home/debian/dailymon
     
   db:
     image: mariadb:10.6
