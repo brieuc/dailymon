@@ -52,6 +52,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .quantity(entry.getQuantity())
                 // Champs communs
                 .id(entry.getId())
+                .version(entry.getVersion())
                 .title(entry.getTitle())
                 .description(entry.getDescription() == null ? 
                     entry.getModel().getTitle() : entry.getDescription())
@@ -73,6 +74,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .model((ModelSportDto) modelMapper.toDto(entry.getModel())) // ✅ Model inclus !
                 // Champs communs
                 .id(entry.getId())
+                .version(entry.getVersion())
                 .title(entry.getTitle())
                 .description(entry.getDescription())
                 .date(entry.getDate())
@@ -84,6 +86,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
     private EntryFreeDto toDto(EntryFree entry) {
         return EntryFreeDto.builder()
                 .id(entry.getId())
+                .version(entry.getVersion())
                 .title(entry.getTitle())
                 .description(entry.getDescription())
                 .date(entry.getDate())
@@ -103,6 +106,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .model((ModelFreeDto) modelMapper.toDto(entry.getModel())) // ✅ Model inclus !
                 // Champs communs
                 .id(entry.getId())
+                .version(entry.getVersion())
                 .title(entry.getTitle())
                 .description(entry.getDescription())
                 .date(entry.getDate())
@@ -136,6 +140,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .quantity(dto.getQuantity())
                 // Champs communs de Entry
                 .id(dto.getId())
+                .version(dto.getVersion())
                 .date(dto.getDate())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
@@ -161,6 +166,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .benefit(dto.getBenefit())
                 // Champs communs de Entry
                 .id(dto.getId())
+                .version(dto.getVersion())
                 .date(dto.getDate())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
@@ -181,6 +187,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 // Pas de champs spécifiques pour EntryFree
                 // Champs communs de Entry
                 .id(dto.getId())
+                .version(dto.getVersion())
                 .date(dto.getDate())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
@@ -203,6 +210,7 @@ public class EntryMapperWithModelImpl implements EntryMapper {
                 .kcal(dto.getKcal())
                 // Champs communs de Entry
                 .id(dto.getId())
+                .version(dto.getVersion())
                 .date(dto.getDate())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
