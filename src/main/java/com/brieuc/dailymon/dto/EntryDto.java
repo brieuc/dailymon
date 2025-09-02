@@ -39,6 +39,7 @@ import lombok.experimental.SuperBuilder;
 public class EntryDto {
 
     UUID id;
+    long version;
     @NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Title couldn't be null")
     String title;
     //@NotBlank(groups = {CreateEntry.class, UpdateEntry.class}, message = "Description couldn't be null")
