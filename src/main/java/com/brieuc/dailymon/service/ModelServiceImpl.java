@@ -1,15 +1,17 @@
 package com.brieuc.dailymon.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.brieuc.dailymon.entity.model.Model;
-import com.brieuc.dailymon.mapper.ModelMapper;
+import com.brieuc.dailymon.entity.model.ModelFood;
 import com.brieuc.dailymon.repository.ModelRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -20,14 +22,16 @@ import lombok.RequiredArgsConstructor;
 public class ModelServiceImpl implements ModelService {
 
       private final ModelRepository modelRepository;
-      private final ModelMapper modelMapper;
 
       public List<Model> getModels() {
             return modelRepository.findAll();
       }
 
-      public List<? extends Model> getFoodModels() {
-            return modelRepository.findAllModelFood();
+      public List<ModelFood> getFoodModels() {
+      return modelRepository.findAllModelFood()
+            .stream()
+            .sorted(Comparator.comparing(ModelFood::getTitle))
+            .collect(Collectors.toList());
       }
 
       public List<? extends Model> getFreeModels() {

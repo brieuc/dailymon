@@ -6,13 +6,13 @@ import java.util.UUID;
 
 import org.springframework.lang.NonNull;
 
-import com.brieuc.dailymon.dto.ModelDto;
 import com.brieuc.dailymon.entity.model.Model;
+import com.brieuc.dailymon.entity.model.ModelFood;
 
 public interface ModelService {
       List<Model> getModels();
 
-      List<? extends Model> getFoodModels();
+      List<ModelFood> getFoodModels();
       List<? extends Model> getFreeModels();
       List<? extends Model> getSportModels();
 
