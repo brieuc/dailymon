@@ -1,11 +1,10 @@
 version: '3.1'
-
 services:
   db:
     image: mariadb:10.6
     container_name: mariadb_container
     networks:
-      - "network1"
+      - web
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: BrieucGorin
@@ -13,50 +12,39 @@ services:
     volumes:
       - ${MARIADB_HOME}
     ports:
-      - 3306:3306
-
+      - 3306:3306  # Optionnel : gardez si accès externe nécessaire
+      
   adminer:
     image: adminer
     networks:
-      - "network1"
+      - web
     restart: always
     ports:
-      - 8090:8090
+      - 8090:8090  # Optionnel : gardez si accès direct souhaité
     depends_on:
       - db
-
+      
   backend:
     image: dailymon:latest
     networks:
-      - "network1"
-    ports:
-      - 8080:8080
-      - 8443:8443
+      - web
+    # PORTS RETIRÉS - accès via reverse proxy uniquement
     volumes:
       - ${CERTBOT_CONF_LETSENCRYPT}:ro
     depends_on:
       - db
-
+      
   frontend:
     image: dailyvue:latest
     networks:
-      - "network1"
-    ports:
-      - 80:80
-      - 443:443
+      - web
+    # PORTS RETIRÉS - accès via reverse proxy uniquement
     volumes:
       - ${CERTBOT_WWW}:ro
       - ${CERTBOT_CONF_NGINX}:ro
     depends_on:
       - backend
 
-  certbot:
-      image: certbot/certbot:latest
-      volumes:
-        - ${CERTBOT_WWW}:rw
-        - ${CERTBOT_CONF_LETSENCRYPT}:rw
-      
 networks:
-  network1:
-    name: network1
-    driver: bridge
+  web:
+    external: true  # Utilise le réseau externe partagé
