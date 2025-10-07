@@ -25,6 +25,7 @@ services:
       - db
       
   backend:
+    container_name: dailymon
     image: dailymon:latest
     networks:
       - web
@@ -35,6 +36,7 @@ services:
       - db
       
   frontend:
+    container_name: dailyvue
     image: dailyvue:latest
     networks:
       - web
