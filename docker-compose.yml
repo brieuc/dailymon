@@ -2,6 +2,7 @@ version: '3.1'
 services:
  
   backend:
+    restart: always
     container_name: dailymon
     image: dailymon:latest
     environment:
@@ -15,6 +16,7 @@ services:
       - ${CERTBOT_CONF_LETSENCRYPT}:ro
       
   frontend:
+    restart: always
     container_name: dailyvue
     image: dailyvue:latest
     networks:
