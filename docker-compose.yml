@@ -1,17 +1,6 @@
 version: '3.1'
 services:
  
-      
-  adminer:
-    image: adminer
-    networks:
-      - web
-    restart: always
-    ports:
-      - 8090:8090  # Optionnel : gardez si accès direct souhaité
-    depends_on:
-      - db
-      
   backend:
     container_name: dailymon
     image: dailymon:latest
@@ -24,8 +13,6 @@ services:
     # PORTS RETIRÉS - accès via reverse proxy uniquement
     volumes:
       - ${CERTBOT_CONF_LETSENCRYPT}:ro
-    depends_on:
-      - db
       
   frontend:
     container_name: dailyvue
