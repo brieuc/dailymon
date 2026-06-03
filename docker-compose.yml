@@ -6,7 +6,7 @@ services:
     container_name: dailymon
     image: dailymon:latest
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mariadb_container://mariadb_container:3306/dailymondb
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb_container:3306/dailymondb
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=BrieucGorin
     networks:
